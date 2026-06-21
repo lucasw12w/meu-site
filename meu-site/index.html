@@ -3,1812 +3,799 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ascendix · Engenharia de Software</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<title>ASCENDIX · Engenharia · Software</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
+<script type="module" src="https://unpkg.com/@splinetool/viewer@1.0.0/build/spline-viewer.js"></script>
 <style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0a0a0c;
-  --bg-soft:#13131a;
-  --panel:#1b1b24;
-  --line:#2b2b36;
-  --orange:#ff5c1a;
-  --orange-dim:#ff5c1a33;
-  --white:#f4f3f1;
-  --grey:#9a9aa6;
-  --mono:'JetBrains Mono', monospace;
+  --bg:#0D0D0D;--bg2:#111111;--card:#161616;--border:#242424;
+  --yellow:#F5C400;--white:#FFFFFF;--gray:#888;--gray2:#4a4a4a;
+  --green:#22c55e;
+  --fd:'Barlow Condensed',sans-serif;--fb:'Barlow',sans-serif;--fm:'Space Mono',monospace;
 }
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{
-  background:var(--bg);
-  color:var(--white);
-  font-family:'Inter',sans-serif;
-  line-height:1.6;
-  overflow-x:hidden;
-}
-a{color:inherit;text-decoration:none;}
-.wrap{max-width:1200px;margin:0 auto;padding:0 32px;}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:var(--fb);overflow-x:hidden}
 
-/* ===== NAV ===== */
-header{
-  position:fixed;top:0;left:0;right:0;
-  z-index:100;
-  background:rgba(10,10,12,0.7);
-  backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--line);
-}
-nav{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:18px 32px;max-width:1200px;margin:0 auto;
-}
-.logo-mark{display:flex;align-items:center;gap:10px;}
-.logo-icon{height:34px;width:auto;flex-shrink:0;}
-.logo-mark span{
-  font-family:'Space Grotesk',sans-serif;
-  font-weight:700;font-size:1.15rem;letter-spacing:0.08em;
-}
-.logo-mark span em{color:var(--orange);font-style:normal;}
-.logo-mark img{transition:transform .5s ease;}
-.logo-mark:hover .logo-icon{transform:rotate(8deg);}
-.nav-links{display:flex;gap:36px;align-items:center;}
-.nav-links a{
-  font-size:0.92rem;color:var(--grey);
-  transition:color .2s;
-}
-.nav-links a:hover{color:var(--white);}
-.nav-cta{
-  background:var(--orange);color:#0a0a0c!important;
-  padding:10px 22px;border-radius:6px;
-  font-weight:600;font-size:0.9rem;
-  transition:transform .15s, box-shadow .15s;
-}
-.nav-cta:hover{transform:translateY(-1px);box-shadow:0 6px 20px var(--orange-dim);}
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(13,13,13,.97);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:54px;gap:16px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--white);flex-shrink:0}
+.logo-icon{color:var(--yellow);font-size:17px}
+.logo-text{display:flex;flex-direction:column;line-height:1.1}
+.logo-name{font-family:var(--fd);font-weight:900;font-size:16px;letter-spacing:.1em;color:var(--white)}
+.logo-sub{font-family:var(--fm);font-size:8.5px;letter-spacing:.14em;color:var(--gray);text-transform:uppercase}
+.nav-links{display:flex;align-items:center;gap:24px;list-style:none}
+.nav-links a{font-family:var(--fm);font-size:10.5px;letter-spacing:.1em;color:var(--gray);text-decoration:none;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover{color:var(--white)}
+.nav-right{display:flex;align-items:center;gap:14px;flex-shrink:0}
+.nav-email{font-family:var(--fm);font-size:10px;color:var(--gray);text-decoration:none;transition:color .2s}
+.nav-email:hover{color:var(--white)}
+.btn{display:inline-block;font-family:var(--fm);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;text-decoration:none;cursor:pointer;border:none;transition:opacity .2s,border-color .2s}
+.btn-yellow{background:var(--yellow);color:#000;padding:10px 16px;font-weight:700}
+.btn-yellow:hover{opacity:.85}
+.btn-outline{background:transparent;color:var(--white);border:1px solid var(--border);padding:10px 16px}
+.btn-outline:hover{border-color:var(--gray)}
 
-.lang-switch{
-  display:flex;align-items:center;gap:6px;
-  font-family:var(--mono);font-size:0.78rem;
-}
-.lang-btn{
-  background:none;border:none;color:var(--grey);
-  cursor:pointer;padding:4px 6px;border-radius:4px;
-  transition:color .2s;font-family:var(--mono);font-size:0.78rem;
-}
-.lang-btn:hover{color:var(--white);}
-.lang-btn.active{color:var(--orange);font-weight:700;}
-.lang-sep{color:var(--line);}
+/* LANG SWITCHER */
+.lang-sw{display:flex;align-items:center;border:1px solid var(--border);overflow:hidden;flex-shrink:0}
+.lang-btn{font-family:var(--fm);font-size:10px;letter-spacing:.12em;padding:6px 12px;cursor:pointer;background:transparent;color:var(--gray);border:none;transition:background .2s,color .2s;text-transform:uppercase}
+.lang-btn.active{background:var(--yellow);color:#000;font-weight:700}
+.lang-sep{width:1px;background:var(--border);height:100%;align-self:stretch}
 
-/* ===== HERO ===== */
-.hero{
-  min-height:100vh;
-  display:flex;align-items:center;
-  position:relative;
-  padding:140px 0 80px;
-  background:
-    radial-gradient(ellipse 800px 500px at 75% 20%, var(--orange-dim), transparent 60%),
-    var(--bg);
-}
-.hero-grid{
-  display:grid;grid-template-columns:1.15fr 0.85fr;gap:60px;
-  align-items:center;
-}
-.eyebrow{
-  font-family:var(--mono);
-  font-size:0.8rem;color:var(--orange);
-  letter-spacing:0.18em;text-transform:uppercase;
-  display:flex;align-items:center;gap:10px;margin-bottom:24px;
-}
-.eyebrow::before{
-  content:'';width:24px;height:1px;background:var(--orange);
-}
-h1{
-  font-family:'Space Grotesk',sans-serif;
-  font-size:clamp(2.6rem, 5.2vw, 4.4rem);
-  font-weight:700;line-height:1.08;
-  letter-spacing:-0.01em;
-  margin-bottom:24px;
-}
-h1 .accent{color:var(--orange);}
-.hero p.lead{
-  font-size:1.15rem;color:var(--grey);
-  max-width:520px;margin-bottom:36px;
-}
-.hero-actions{display:flex;gap:16px;flex-wrap:wrap;}
-.btn{
-  padding:15px 30px;border-radius:6px;
-  font-weight:600;font-size:0.95rem;
-  display:inline-flex;align-items:center;gap:10px;
-  transition:all .2s;border:1px solid transparent;
-  cursor:pointer;
-}
-.btn-primary{
-  background:var(--orange);color:#0a0a0c;
-}
-.btn-primary:hover{
-  box-shadow:0 8px 28px var(--orange-dim);transform:translateY(-2px);
-}
-.btn-ghost{
-  border:1px solid var(--line);color:var(--white);
-  background:transparent;
-}
-.btn-ghost:hover{border-color:var(--orange);color:var(--orange);}
+/* HERO */
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding-top:54px;position:relative;overflow:hidden}
+.hero-main{padding:48px 40px 40px;max-width:1280px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:0;align-items:center;flex:1}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding-right:32px;z-index:2}
+.hero-robot{position:relative;height:400px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero-robot spline-viewer{width:80%;height:80%;--spline-viewer-bg:transparent}
+.hero-robot::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 60% 50%,rgba(245,196,0,.04) 0%,transparent 60%);pointer-events:none;z-index:0}
+.hero-robot::after{content:'';position:absolute;left:0;top:0;bottom:0;width:100px;background:linear-gradient(to right,var(--bg) 30%,transparent 100%);pointer-events:none;z-index:3}
+.tag-row{display:flex;align-items:center;gap:12px;font-family:var(--fm);font-size:10px;letter-spacing:.18em;color:var(--gray);text-transform:uppercase;margin-bottom:28px}
+.tag-dot{width:8px;height:8px;background:var(--yellow);flex-shrink:0}
+.hero-h{font-family:var(--fd);font-weight:900;text-transform:uppercase;line-height:.92;letter-spacing:-.01em;margin-bottom:32px}
+.hero-h .l1{display:block;font-size:clamp(40px,5.5vw,80px);color:var(--white)}
+.hero-h .l2{display:block;font-size:clamp(40px,5.5vw,80px);color:var(--yellow)}
+.hero-h .l3{display:block;font-size:clamp(40px,5.5vw,80px);color:var(--gray2)}
+.hero-desc{font-size:14.5px;color:var(--gray);max-width:460px;line-height:1.75;margin-bottom:36px}
+.hero-desc strong{color:var(--white)}
+.hero-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.available{display:flex;align-items:center;gap:8px;font-family:var(--fm);font-size:9.5px;letter-spacing:.14em;color:var(--gray);text-transform:uppercase}
+.pulse{width:7px;height:7px;background:var(--green);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 
-/* Hero visual: animated ascending logo */
-.hero-visual{
-  position:relative;display:flex;justify-content:center;align-items:center;
-  height:440px;
-}
-.hero-visual .ring{
-  position:absolute;border:1px solid var(--line);border-radius:50%;
-}
-.ring1{width:380px;height:380px;}
-.ring2{width:280px;height:280px;border-color:var(--orange-dim);}
-.hero-visual .hero-logo{
-  width:280px;height:auto;position:relative;z-index:2;
-  filter:drop-shadow(0 0 30px var(--orange-dim));
-  animation:float 6s ease-in-out infinite;
-}
-@keyframes float{
-  0%,100%{transform:translateY(0);}
-  50%{transform:translateY(-18px);}
-}
-.scan-line{
-  position:absolute;width:100%;height:1px;
-  background:linear-gradient(90deg, transparent, var(--orange), transparent);
-  opacity:0.6;
-  animation:scan 4s linear infinite;
-}
-@keyframes scan{
-  0%{transform:translateY(120px);opacity:0;}
-  10%{opacity:0.6;}
-  90%{opacity:0.6;}
-  100%{transform:translateY(-160px);opacity:0;}
-}
+/* STATS BAR */
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border)}
+.stat{padding:24px 40px;border-right:1px solid var(--border)}
+.stat:last-child{border-right:none}
+.stat-lbl{font-family:var(--fm);font-size:9.5px;letter-spacing:.16em;color:var(--gray);text-transform:uppercase;margin-bottom:10px}
+.stat-val{font-family:var(--fd);font-weight:900;font-size:42px;line-height:1;color:var(--yellow)}
+.stat-track{height:2px;background:var(--border);margin-top:12px;overflow:hidden}
+.stat-fill{height:100%;background:var(--yellow);width:0;transition:width 1.8s cubic-bezier(.16,1,.3,1)}
 
-/* stats bar */
-.stats{
-  display:flex;gap:48px;margin-top:64px;
-  border-top:1px solid var(--line);padding-top:28px;
-  flex-wrap:wrap;
-}
-.stat-num{
-  font-family:'Space Grotesk',sans-serif;
-  font-size:1.8rem;font-weight:700;color:var(--orange);
-}
-.stat-label{font-size:0.82rem;color:var(--grey);margin-top:4px;}
+/* SECTIONS */
+section{padding:96px 0}
+.container{max-width:1280px;margin:0 auto;padding:0 40px}
+.sec-lbl{font-family:var(--fm);font-size:10px;letter-spacing:.18em;color:var(--gray2);text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.sec-lbl::before{content:'//';color:var(--yellow);font-weight:700}
+.sec-h{font-family:var(--fd);font-weight:900;text-transform:uppercase;line-height:.93;letter-spacing:-.01em}
+.sec-h .w{display:block;font-size:clamp(40px,6vw,80px);color:var(--white)}
+.sec-h .m{display:block;font-size:clamp(40px,6vw,80px);color:var(--gray2)}
+.sec-h .y{display:block;font-size:clamp(40px,6vw,80px);color:var(--yellow)}
 
-/* ===== SECTION HEADERS ===== */
-.section{padding:110px 0;}
-.section-head{max-width:640px;margin-bottom:64px;}
-.section-tag{
-  font-family:var(--mono);font-size:0.8rem;color:var(--orange);
-  letter-spacing:0.18em;text-transform:uppercase;margin-bottom:16px;
-}
-.section-head h2{
-  font-family:'Space Grotesk',sans-serif;
-  font-size:clamp(2rem, 3.6vw, 2.8rem);font-weight:700;
-  letter-spacing:-0.01em;
-}
-.section-head p{color:var(--grey);margin-top:16px;font-size:1.05rem;}
+/* SOBRE */
+#sobre{background:var(--bg)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.about-p{color:var(--gray);font-size:14.5px;line-height:1.8;margin-top:24px}
+.about-p strong{color:var(--white)}
+.about-kpis{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--border);margin-top:44px}
+.kpi{padding:20px 24px;border-right:1px solid var(--border)}
+.kpi:last-child{border-right:none}
+.kpi-v{font-family:var(--fd);font-weight:900;font-size:34px;color:var(--white);line-height:1}
+.kpi-l{font-family:var(--fm);font-size:8.5px;letter-spacing:.15em;color:var(--gray);text-transform:uppercase;margin-top:5px}
+.about-cards{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
+.acard{background:var(--card);padding:28px 30px}
+.acard-icon{font-size:20px;margin-bottom:14px}
+.acard-title{font-family:var(--fd);font-weight:800;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--white);margin-bottom:10px}
+.acard-desc{font-size:12.5px;color:var(--gray);line-height:1.7}
 
-/* ===== SERVICES ===== */
-.services{background:var(--bg-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
-.service-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
-  background:var(--line);border:1px solid var(--line);
-}
-.service-card{
-  background:var(--bg-soft);padding:40px 32px;
-  transition:background .25s;position:relative;
-}
-.service-card:hover{background:var(--panel);}
-.service-num{
-  font-family:var(--mono);font-size:0.85rem;color:var(--grey);
-  margin-bottom:24px;
-}
-.service-card h3{
-  font-family:'Space Grotesk',sans-serif;
-  font-size:1.3rem;margin-bottom:12px;font-weight:600;
-}
-.service-card p{color:var(--grey);font-size:0.95rem;}
-.service-icon{
-  width:44px;height:44px;border:1px solid var(--orange);
-  border-radius:8px;display:flex;align-items:center;justify-content:center;
-  margin-bottom:24px;color:var(--orange);
-}
+/* METODOLOGIA */
+#metodologia{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.method-top{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end;margin-bottom:56px}
+.method-desc{font-size:14.5px;color:var(--gray);line-height:1.8;padding-top:60px}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--border)}
+.step{padding:26px 20px;border-right:1px solid var(--border)}
+.step:last-child{border-right:none}
+.step-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px}
+.step-num{font-family:var(--fm);font-size:12px;color:var(--yellow);font-weight:700}
+.step-time{font-family:var(--fm);font-size:8px;color:var(--gray2);letter-spacing:.1em;text-transform:uppercase;text-align:right;line-height:1.4}
+.step-title{font-family:var(--fd);font-weight:800;font-size:19px;letter-spacing:.06em;text-transform:uppercase;color:var(--white);margin-bottom:14px}
+.step-list{list-style:none}
+.step-list li{font-size:11.5px;color:var(--gray);line-height:1.55;margin-bottom:8px;padding-left:14px;position:relative}
+.step-list li::before{content:'▸';position:absolute;left:0;color:var(--yellow);font-size:9px;top:2px}
 
-/* ===== DEMO SECTION ===== */
-.demo{position:relative;}
-.demo-layout{
-  display:grid;grid-template-columns:1fr 1.3fr;gap:64px;align-items:start;
-}
-.demo-layout-rev{direction:rtl;}
-.demo-layout-rev>*{direction:ltr;}
-@media (max-width:900px){
-  .demo-layout-rev{direction:ltr;}
-}
+/* SERVIÇOS */
+#servicos{background:var(--bg)}
+.srv-intro{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end;margin-bottom:64px}
+.srv-intro-desc{font-size:14.5px;color:var(--gray);line-height:1.8;padding-top:50px}
+.srv-row{display:grid;grid-template-columns:80px 1fr 1fr;gap:32px;align-items:start;padding:28px 0;border-bottom:1px solid var(--border);transition:background .2s}
+.srv-row:first-child{border-top:1px solid var(--border)}
+.srv-row:hover{background:rgba(245,196,0,.03)}
+.srv-row-num{font-family:var(--fm);font-size:13px;color:var(--yellow);font-weight:700;padding-top:4px}
+.srv-row-title{font-family:var(--fd);font-weight:800;font-size:22px;letter-spacing:.06em;text-transform:uppercase;color:var(--white);line-height:1.1}
+.srv-row-tag{display:inline-block;font-family:var(--fm);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--gray2);border:1px solid var(--border);padding:4px 10px;margin-top:8px}
+.srv-row-desc{font-size:13px;color:var(--gray);line-height:1.7;padding-top:4px}
 
-/* ===== CHARTS (production demo) ===== */
-.chart-wrap{margin-top:20px;}
-.chart-title{
-  font-size:0.78rem;color:var(--grey);text-transform:uppercase;
-  letter-spacing:0.08em;margin-bottom:12px;font-family:var(--mono);
-}
-.bar-chart{
-  display:flex;align-items:flex-end;gap:14px;height:120px;
-  border-bottom:1px solid var(--line);padding-bottom:8px;
-}
-.bar-col{
-  flex:1;display:flex;flex-direction:column;align-items:center;
-  justify-content:flex-end;height:100%;gap:8px;
-}
-.bar-col .bar{
-  width:100%;max-width:28px;background:linear-gradient(180deg, var(--orange), #ff5c1a55);
-  border-radius:4px 4px 0 0;height:0;
-  animation:growBar 1s ease-out forwards;animation-delay:.2s;
-}
-.bar-col span{font-size:0.72rem;color:var(--grey);font-family:var(--mono);}
-@keyframes growBar{to{height:var(--h);}}
+/* FAQ */
+#faq{background:var(--bg2);border-top:1px solid var(--border)}
+.faq-layout{display:grid;grid-template-columns:1fr 2fr;gap:80px;align-items:start}
+.faq-note{font-size:13px;color:var(--gray);margin-top:20px;line-height:1.7}
+.faq-note a{color:var(--yellow);text-decoration:none}
+.faq-list{border-top:1px solid var(--border)}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-q{display:flex;align-items:center;gap:16px;padding:18px 0;cursor:pointer}
+.faq-q-num{font-family:var(--fm);font-size:10px;color:var(--gray2);flex-shrink:0;width:20px}
+.faq-q-txt{font-family:var(--fd);font-weight:800;font-size:15px;letter-spacing:.07em;text-transform:uppercase;color:var(--white);flex:1;transition:color .2s}
+.faq-q:hover .faq-q-txt{color:var(--yellow)}
+.faq-chevron{font-size:16px;color:var(--gray);flex-shrink:0;transition:transform .28s,color .2s}
+.faq-item.open .faq-chevron{transform:rotate(180deg);color:var(--yellow)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.faq-a-inner{padding:0 0 20px 36px;font-size:13.5px;color:var(--gray);line-height:1.8}
 
-.line-chart{width:100%;height:90px;}
-.line-chart-path{
-  stroke:var(--orange);stroke-width:2.5;
-  stroke-dasharray:600;stroke-dashoffset:600;
-  animation:drawLine 1.6s ease-out forwards;animation-delay:.2s;
+/* CONTACTO — Lamp Effect */
+#contacto{
+  position:relative;background:var(--bg);border-top:1px solid var(--border);
+  overflow:hidden;min-height:80vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
 }
-@keyframes drawLine{to{stroke-dashoffset:0;}}
-.line-chart-area{opacity:0;animation:fadeUp .8s ease forwards;animation-delay:1s;}
-.demo-text h2{margin-bottom:20px;}
-.feature-list{margin-top:32px;display:flex;flex-direction:column;gap:18px;}
-.feature-item{display:flex;gap:16px;align-items:flex-start;}
-.feature-dot{
-  width:8px;height:8px;border-radius:50%;background:var(--orange);
-  margin-top:8px;flex-shrink:0;
+/* blur overlay */
+.ct-blur{position:absolute;top:0;left:0;right:0;height:180px;background:transparent;backdrop-filter:blur(6px);opacity:.08;z-index:1;pointer-events:none}
+/* central big glow */
+.ct-glow{
+  position:absolute;top:0;left:50%;
+  transform:translateX(-50%) translateY(-30%);
+  width:480px;height:160px;
+  background:rgba(255,255,255,.45);border-radius:50%;filter:blur(64px);
+  z-index:2;pointer-events:none;
+  opacity:0;transition:opacity .8s .3s
 }
-.feature-item div h4{font-size:1rem;font-weight:600;margin-bottom:4px;}
-.feature-item div p{color:var(--grey);font-size:0.9rem;}
+/* small sharp glow */
+.ct-glow-sm{
+  position:absolute;top:0;left:50%;
+  transform:translateX(-50%) translateY(-20%);
+  width:80px;height:160px;
+  background:rgba(255,255,255,.55);border-radius:50%;filter:blur(28px);
+  z-index:3;pointer-events:none;
+  transition:width .8s .3s ease-in-out,opacity .8s .3s
+}
+/* expanding top line */
+.ct-line{
+  position:absolute;top:0;left:50%;
+  transform:translateX(-50%) translateY(8px);
+  height:2px;background:rgba(255,255,255,.75);
+  z-index:4;pointer-events:none;
+  width:120px;transition:width .8s .3s ease-in-out
+}
+/* LEFT cone */
+.ct-cone-l{
+  position:absolute;top:0;right:50%;height:240px;
+  background:conic-gradient(from 70deg at center top,rgba(255,255,255,.35),transparent 60%,transparent);
+  width:120px;opacity:.5;
+  z-index:1;pointer-events:none;
+  transition:width .8s .3s ease-in-out,opacity .8s .3s;
+  overflow:hidden;
+}
+.ct-cone-l::before{content:'';position:absolute;bottom:0;left:0;right:0;height:140px;background:linear-gradient(to top,var(--bg),transparent);z-index:2}
+.ct-cone-l::after{content:'';position:absolute;top:0;left:0;width:120px;height:100%;background:linear-gradient(to right,var(--bg),transparent);z-index:2}
+/* RIGHT cone */
+.ct-cone-r{
+  position:absolute;top:0;left:50%;height:240px;
+  background:conic-gradient(from 290deg at center top,transparent 40%,rgba(255,255,255,.35));
+  width:120px;opacity:.5;
+  z-index:1;pointer-events:none;
+  transition:width .8s .3s ease-in-out,opacity .8s .3s;
+  overflow:hidden;
+}
+.ct-cone-r::before{content:'';position:absolute;bottom:0;left:0;right:0;height:140px;background:linear-gradient(to top,var(--bg),transparent);z-index:2}
+.ct-cone-r::after{content:'';position:absolute;top:0;right:0;width:120px;height:100%;background:linear-gradient(to left,var(--bg),transparent);z-index:2}
 
-/* Tablet mock / interactive demo */
-.demo-panel{
-  background:var(--panel);border:1px solid var(--line);
-  border-radius:16px;overflow:hidden;
-  box-shadow:0 30px 80px -20px rgba(255,92,26,0.08);
-}
-.demo-tabs{
-  display:flex;border-bottom:1px solid var(--line);
-  background:var(--bg-soft);
-}
-.demo-tab{
-  flex:1;padding:16px;text-align:center;font-size:0.9rem;
-  font-weight:600;color:var(--grey);cursor:pointer;
-  border-bottom:2px solid transparent;
-  transition:all .2s;
-}
-.demo-tab.active{color:var(--orange);border-color:var(--orange);}
-.demo-body{padding:28px;min-height:380px;}
+/* ACTIVE state — triggered by IntersectionObserver */
+#contacto.lamp-on .ct-glow{opacity:1}
+#contacto.lamp-on .ct-glow-sm{width:200px;opacity:1}
+#contacto.lamp-on .ct-line{width:520px}
+#contacto.lamp-on .ct-cone-l{width:480px;opacity:1}
+#contacto.lamp-on .ct-cone-r{width:480px;opacity:1}
 
-/* cardápio view */
-.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-.menu-item{
-  background:var(--bg-soft);border:1px solid var(--line);
-  border-radius:10px;padding:14px;cursor:pointer;
-  transition:border-color .2s, transform .15s;
+/* Content */
+.contact-inner{
+  position:relative;z-index:10;
+  text-align:center;
+  display:flex;flex-direction:column;align-items:center;
+  padding:80px 40px 96px;
+  width:100%;max-width:700px;
+  transform:translateY(40px);opacity:0;
+  transition:transform .8s .5s ease,opacity .8s .5s
 }
-.menu-item:hover{border-color:var(--orange);transform:translateY(-2px);}
-.menu-item .tag{
-  font-family:var(--mono);font-size:0.7rem;color:var(--grey);
-  text-transform:uppercase;letter-spacing:0.1em;
-}
-.menu-item h5{font-size:1rem;margin:8px 0 4px;font-weight:600;}
-.menu-item .price{color:var(--orange);font-weight:700;font-size:1.05rem;}
-.cart-bar{
-  margin-top:20px;display:flex;justify-content:space-between;
-  align-items:center;background:var(--bg-soft);border:1px solid var(--line);
-  border-radius:10px;padding:14px 18px;
-}
-.cart-bar span:first-child{color:var(--grey);font-size:0.9rem;}
-.cart-bar span:last-child{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--orange);font-size:1.1rem;}
+#contacto.lamp-on .contact-inner{transform:translateY(0);opacity:1}
+.contact-desc{font-size:15px;color:var(--gray);line-height:1.8;margin-top:28px;margin-bottom:48px;max-width:480px}
+.contact-desc strong{color:var(--white)}
+.contact-channels{display:flex;flex-direction:column;gap:1px;width:100%;max-width:560px}
+.channel{display:flex;align-items:center;justify-content:space-between;padding:22px 28px;background:var(--card);border:1px solid var(--border);text-decoration:none;transition:border-color .2s,background .2s,transform .2s}
+.channel:hover{border-color:var(--yellow);background:rgba(245,196,0,.05);transform:translateX(4px)}
+.channel-left{display:flex;align-items:center;gap:16px}
+.channel-icon{font-size:18px;width:36px;text-align:center;color:var(--yellow)}
+.channel-lbl{font-family:var(--fm);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--gray2);margin-bottom:4px}
+.channel-val{font-family:var(--fd);font-weight:800;font-size:20px;color:var(--white);letter-spacing:.03em}
+.channel-arrow{font-family:var(--fm);font-size:11px;color:var(--yellow);letter-spacing:.1em}
 
-/* gestão view */
-.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;}
-.kpi{
-  background:var(--bg-soft);border:1px solid var(--line);
-  border-radius:10px;padding:18px;
-}
-.kpi .kpi-label{font-size:0.78rem;color:var(--grey);margin-bottom:8px;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.08em;}
-.kpi .kpi-value{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:700;}
-.kpi .kpi-trend{font-size:0.78rem;margin-top:6px;}
-.kpi-trend.up{color:#4ade80;}
-.kpi-trend.down{color:#ff5c1a;}
-.stock-table{width:100%;border-collapse:collapse;}
-.stock-table th{
-  text-align:left;font-size:0.75rem;color:var(--grey);
-  text-transform:uppercase;letter-spacing:0.08em;font-family:var(--mono);
-  padding:10px 0;border-bottom:1px solid var(--line);
-}
-.stock-table td{padding:12px 0;border-bottom:1px solid var(--line);font-size:0.9rem;}
-.stock-bar{
-  width:100%;height:6px;background:var(--bg-soft);border-radius:3px;overflow:hidden;
-}
-.stock-fill{height:100%;background:var(--orange);}
-.status-pill{
-  font-size:0.72rem;padding:4px 10px;border-radius:20px;
-  font-family:var(--mono);text-transform:uppercase;
-}
-.status-pill.ok{background:#4ade8022;color:#4ade80;}
-.status-pill.low{background:#ff5c1a22;color:#ff5c1a;}
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:28px 40px;display:flex;align-items:center;justify-content:space-between}
+.footer-copy{font-family:var(--fm);font-size:10px;color:var(--gray2);letter-spacing:.1em}
+.footer-right{font-family:var(--fm);font-size:10px;color:var(--gray2)}
 
-/* pedidos view */
-.order-row{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:14px 16px;background:var(--bg-soft);border:1px solid var(--line);
-  border-radius:10px;margin-bottom:10px;
+/* RESPONSIVE */
+@media(max-width:960px){
+  .nav-links,.nav-email{display:none}
+  .about-grid,.method-top,.faq-layout,.srv-intro{grid-template-columns:1fr}
+  .about-cards{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr 1fr}
+  .stats-bar{grid-template-columns:1fr 1fr}
+  .stat{border-bottom:1px solid var(--border)}
+  .srv-row{grid-template-columns:48px 1fr}
+  .srv-row-desc{grid-column:2}
+  /* Hero em tablet: robô por baixo */
+  .hero-main{grid-template-columns:1fr;padding:48px 32px 0}
+  .hero-left{padding-right:0}
+  .hero-robot{height:420px;margin-top:0}
+  .hero-robot::after{display:none}
 }
-.order-row .table-no{
-  font-family:'Space Grotesk',sans-serif;font-weight:700;
-  width:60px;color:var(--orange);
-}
-.order-row .order-info{flex:1;padding:0 12px;}
-.order-row .order-info strong{display:block;font-size:0.92rem;}
-.order-row .order-info span{font-size:0.8rem;color:var(--grey);}
-.order-status{
-  font-family:var(--mono);font-size:0.75rem;text-transform:uppercase;
-  padding:6px 12px;border-radius:6px;
-}
-.os-prep{background:#ffb02e22;color:#ffb02e;}
-.os-ready{background:#4ade8022;color:#4ade80;}
-.os-new{background:var(--orange-dim);color:var(--orange);}
-
-/* hidden state */
-.tab-content{display:none;}
-.tab-content.active{display:block;animation:fadein .3s ease;}
-@keyframes fadein{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
-
-/* ===== PROCESS ===== */
-.process-list{display:flex;flex-direction:column;}
-.process-row{
-  display:grid;grid-template-columns:80px 1fr 1fr;gap:40px;
-  padding:36px 0;border-bottom:1px solid var(--line);
-  align-items:start;
-}
-.process-row:first-child{border-top:1px solid var(--line);}
-.process-step{
-  font-family:'Space Grotesk',sans-serif;font-size:1.4rem;
-  font-weight:700;color:var(--orange);
-}
-.process-row h3{font-family:'Space Grotesk',sans-serif;font-size:1.25rem;font-weight:600;margin-bottom:8px;}
-.process-row p{color:var(--grey);font-size:0.95rem;}
-
-/* ===== CONTACT ===== */
-.contact{
-  background:var(--bg-soft);border-top:1px solid var(--line);
-}
-.contact-grid{
-  display:grid;grid-template-columns:1fr;gap:64px;
-  align-items:start;
-  max-width:640px;margin:0 auto;text-align:center;
-}
-.contact-grid .contact-channels{text-align:left;}
-.contact-info h2{margin-bottom:20px;}
-.contact-info p{color:var(--grey);margin-bottom:32px;}
-.contact-channels{display:flex;flex-direction:column;gap:20px;}
-.channel{
-  display:flex;align-items:center;gap:16px;
-  padding:18px;border:1px solid var(--line);border-radius:10px;
-  transition:border-color .2s;
-}
-.channel:hover{border-color:var(--orange);}
-.channel-icon{
-  width:40px;height:40px;border-radius:8px;background:var(--orange-dim);
-  display:flex;align-items:center;justify-content:center;color:var(--orange);
-  flex-shrink:0;
-}
-.channel div h4{font-size:0.95rem;font-weight:600;}
-.channel div span{font-size:0.85rem;color:var(--grey);}
-
-form{display:flex;flex-direction:column;gap:18px;}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
-label{font-size:0.85rem;color:var(--grey);margin-bottom:8px;display:block;}
-input,select,textarea{
-  width:100%;background:var(--bg);border:1px solid var(--line);
-  border-radius:8px;padding:13px 14px;color:var(--white);
-  font-family:'Inter',sans-serif;font-size:0.95rem;
-  transition:border-color .2s;
-}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--orange);}
-textarea{resize:vertical;min-height:110px;}
-.submit-btn{
-  background:var(--orange);color:#0a0a0c;border:none;
-  padding:16px;border-radius:8px;font-weight:700;font-size:1rem;
-  cursor:pointer;transition:all .2s;
-}
-.submit-btn:hover{box-shadow:0 8px 28px var(--orange-dim);}
-.form-note{font-size:0.8rem;color:var(--grey);}
-
-/* ===== FOOTER ===== */
-footer{padding:48px 0;border-top:1px solid var(--line);}
-.footer-grid{
-  display:flex;justify-content:space-between;align-items:center;
-  flex-wrap:wrap;gap:24px;
-}
-.footer-logo{display:flex;align-items:center;gap:12px;}
-.footer-logo img{height:28px;}
-.footer-links{display:flex;gap:28px;}
-.footer-links a{color:var(--grey);font-size:0.9rem;}
-.footer-links a:hover{color:var(--orange);}
-.copyright{color:var(--grey);font-size:0.82rem;}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width:900px){
-  .hero-grid,.demo-layout,.contact-grid{grid-template-columns:1fr;}
-  .hero-visual{order:-1;height:300px;}
-  .service-grid{grid-template-columns:1fr;}
-  .process-row{grid-template-columns:1fr;gap:12px;}
-  .form-row{grid-template-columns:1fr;}
-  .nav-links{display:none;}
-  .stats{gap:28px;}
-  .kpi-grid{grid-template-columns:1fr 1fr;}
-}
-@media (prefers-reduced-motion: reduce){
-  .hero-logo,.scan-line{animation:none;}
-  .reveal,.reveal-stagger>*{opacity:1!important;transform:none!important;transition:none!important;}
-}
-
-/* ===== SCROLL REVEAL ===== */
-.reveal{
-  opacity:0;transform:translateY(36px);
-  transition:opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);
-}
-.reveal.in{opacity:1;transform:translateY(0);}
-
-.reveal-stagger>*{
-  opacity:0;transform:translateY(28px);
-  transition:opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1), border-color .2s, transform .15s, background .25s;
-}
-.reveal-stagger.in>*{opacity:1;transform:translateY(0);}
-.reveal-stagger.in>*:nth-child(1){transition-delay:.05s;}
-.reveal-stagger.in>*:nth-child(2){transition-delay:.12s;}
-.reveal-stagger.in>*:nth-child(3){transition-delay:.19s;}
-.reveal-stagger.in>*:nth-child(4){transition-delay:.26s;}
-
-/* ===== CURSOR GLOW ===== */
-.cursor-glow{
-  position:fixed;width:480px;height:480px;border-radius:50%;
-  background:radial-gradient(circle, var(--orange-dim), transparent 70%);
-  pointer-events:none;z-index:1;opacity:0;
-  transform:translate(-50%,-50%);
-  transition:opacity .4s;
-  filter:blur(20px);
-}
-.hero:hover .cursor-glow{opacity:1;}
-
-/* ===== NAV SCROLLED ===== */
-header{transition:background .3s, border-color .3s, padding .3s;}
-header.scrolled{
-  background:rgba(10,10,12,0.92);
-  box-shadow:0 1px 0 var(--line);
-}
-
-/* progress bar */
-.scroll-progress{
-  position:fixed;top:0;left:0;height:2px;background:var(--orange);
-  z-index:200;width:0%;transition:width .1s linear;
-  box-shadow:0 0 12px var(--orange);
-}
-
-/* magnetic-ish nav links underline */
-.nav-links a:not(.nav-cta){position:relative;}
-.nav-links a:not(.nav-cta)::after{
-  content:'';position:absolute;left:0;bottom:-6px;width:0;height:1px;
-  background:var(--orange);transition:width .25s ease;
-}
-.nav-links a:not(.nav-cta):hover::after{width:100%;}
-
-/* service card animated icon + arrow reveal */
-.service-card{cursor:default;}
-.service-card .service-icon{transition:transform .3s, border-color .3s, color .3s;}
-.service-card:hover .service-icon{
-  transform:rotate(10deg) scale(1.08);
-  border-color:var(--orange);box-shadow:0 0 24px var(--orange-dim);
-}
-.service-card::before{
-  content:'';position:absolute;top:0;left:0;width:3px;height:0;
-  background:var(--orange);transition:height .35s ease;
-}
-.service-card:hover::before{height:100%;}
-.service-card{position:relative;overflow:hidden;}
-.service-arrow{
-  display:inline-block;margin-top:18px;color:var(--orange);font-family:var(--mono);
-  font-size:0.85rem;opacity:0;transform:translateX(-8px);
-  transition:opacity .3s, transform .3s;
-}
-.service-card:hover .service-arrow{opacity:1;transform:translateX(0);}
-
-/* feature items slide-in on hover */
-.feature-item{transition:transform .25s;}
-.feature-item:hover{transform:translateX(6px);}
-.feature-item:hover .feature-dot{
-  box-shadow:0 0 0 6px var(--orange-dim);
-  transition:box-shadow .3s;
-}
-.feature-dot{transition:box-shadow .3s;}
-
-/* process row hover */
-.process-row{transition:background .25s, padding-left .25s;position:relative;}
-.process-row:hover{background:var(--bg-soft);padding-left:16px;margin:0 -16px;border-radius:8px;}
-.process-row:hover .process-step{color:var(--white);transition:color .25s;}
-.process-step{transition:color .25s;}
-
-/* channel hover shift */
-.channel{transition:border-color .2s, transform .2s, background .2s;}
-.channel:hover{transform:translateX(6px);background:var(--bg);}
-
-/* input focus glow */
-input:focus,select:focus,textarea:focus{
-  box-shadow:0 0 0 3px var(--orange-dim);
-}
-
-/* menu item selected pulse */
-.menu-item.selected{animation:selectPulse .35s ease;}
-@keyframes selectPulse{
-  0%{transform:scale(1);}
-  50%{transform:scale(1.04);}
-  100%{transform:scale(1);}
-}
-
-/* btn shine */
-.btn-primary{position:relative;overflow:hidden;}
-.btn-primary::after{
-  content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;
-  background:linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
-  transform:skewX(-20deg);transition:left .6s ease;
-}
-.btn-primary:hover::after{left:130%;}
-
-/* stat number count-up ready */
-.stat-num{transition:color .3s;}
-
-/* ===== CUSTOM CURSOR ===== */
-.tech-cursor{
-  position:fixed;width:18px;height:18px;border:1px solid var(--orange);
-  border-radius:50%;pointer-events:none;z-index:300;
-  transform:translate(-50%,-50%);
-  transition:width .2s,height .2s,background .2s,border-color .2s;
-  mix-blend-mode:difference;
-}
-.tech-cursor.hover{
-  width:48px;height:48px;background:var(--orange-dim);
-}
-.tech-cursor-dot{
-  position:fixed;width:4px;height:4px;background:var(--orange);
-  border-radius:50%;pointer-events:none;z-index:300;
-  transform:translate(-50%,-50%);
-}
-@media (max-width:900px){
-  .tech-cursor,.tech-cursor-dot{display:none;}
-}
-
-/* ===== TERMINAL TYPING ===== */
-.terminal{
-  font-family:var(--mono);font-size:0.85rem;color:var(--orange);
-  background:var(--bg-soft);border:1px solid var(--line);
-  border-radius:8px;padding:14px 18px;display:inline-flex;
-  align-items:center;gap:10px;margin-bottom:28px;
-}
-.terminal::before{content:'>';color:var(--grey);}
-.terminal .cursor-char{
-  display:inline-block;width:8px;height:1.1em;background:var(--orange);
-  animation:blink 1s step-end infinite;vertical-align:middle;margin-left:2px;
-}
-@keyframes blink{50%{opacity:0;}}
-
-/* ===== TILT CARDS ===== */
-.service-card,.demo-panel,.channel{
-  transform-style:preserve-3d;
-  will-change:transform;
-}
-
-/* ===== GLITCH WORDMARK HOVER ===== */
-.logo-mark span{position:relative;display:inline-block;}
-.logo-mark:hover span{animation:glitch .35s steps(2,end) 1;}
-@keyframes glitch{
-  0%{transform:translate(0,0);}
-  20%{transform:translate(-2px,1px);text-shadow:2px 0 var(--orange);}
-  40%{transform:translate(2px,-1px);text-shadow:-2px 0 #4ade80;}
-  60%{transform:translate(-1px,0);text-shadow:1px 0 var(--orange);}
-  100%{transform:translate(0,0);text-shadow:none;}
-}
-
-/* ===== HERO STAT COUNTERS ===== */
-.stat-num[data-count]{font-variant-numeric:tabular-nums;}
-
-/* (removed: rotating border on demo panel — was distracting) */
-
-/* ===== 3D ROTATING LOGO (model-viewer) ===== */
-.logo-3d-model{
-  width:320px;height:320px;position:relative;z-index:2;
-  --poster-color: transparent;
-  background-color:transparent;
-}
-.logo-3d-model img{
-  filter:drop-shadow(0 0 30px var(--orange-dim));
-}
-@media (max-width:900px){
-  .logo-3d-model{width:240px;height:240px;}
-}
-@media (prefers-reduced-motion: reduce){
-  .logo-3d-model{--auto-rotate-delay:99999s;}
-}
-
-/* ===== VIDEO SHOWCASE ===== */
-.video-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
-}
-.video-card{
-  background:var(--panel);border:1px solid var(--line);
-  border-radius:12px;overflow:hidden;transition:border-color .2s,transform .25s;
-}
-.video-card:hover{border-color:var(--orange);transform:translateY(-4px);}
-.video-card video{
-  width:100%;display:block;aspect-ratio:16/10;background:var(--bg-soft);
-  object-fit:cover;
-}
-
-/* ===== ANIMATED DEMO SCREENS ===== */
-.anim-screen{
-  aspect-ratio:16/11;background:var(--bg);
-  border-bottom:1px solid var(--line);
-  padding:14px;display:flex;flex-direction:column;gap:10px;
-  font-family:var(--mono);overflow:hidden;position:relative;
-}
-.anim-topbar{
-  display:flex;align-items:center;gap:6px;
-  padding-bottom:8px;border-bottom:1px solid var(--line);
-}
-.anim-topbar .dot{
-  width:8px;height:8px;border-radius:50%;background:var(--line);
-}
-.anim-topbar .dot:first-child{background:#ff5c5c;}
-.anim-topbar .dot:nth-child(2){background:#ffbd44;}
-.anim-topbar .dot:nth-child(3){background:#4ade80;}
-.anim-title{
-  margin-left:8px;font-size:0.72rem;color:var(--grey);
-  text-transform:uppercase;letter-spacing:0.08em;
-}
-
-/* --- Menu demo --- */
-.anim-menu-items{display:flex;flex-direction:column;gap:8px;flex:1;}
-.anim-menu-item{
-  display:flex;align-items:center;gap:10px;
-  background:var(--bg-soft);border:1px solid var(--line);border-radius:8px;
-  padding:8px 10px;
-  opacity:0;transform:translateX(-14px);
-  animation:slideInItem .5s ease forwards;
-  animation-delay:calc(var(--d) + 0.3s);
-}
-@keyframes slideInItem{to{opacity:1;transform:translateX(0);}}
-.anim-thumb{
-  width:30px;height:30px;border-radius:6px;flex-shrink:0;
-  background:linear-gradient(135deg, var(--orange-dim), var(--line));
-}
-.anim-line{height:6px;border-radius:3px;background:var(--line);margin:4px 0;}
-.anim-line.dim{background:#2b2b3680;}
-.w70{width:70px;} .w60{width:60px;} .w50{width:50px;} .w40{width:40px;} .w35{width:35px;} .w30{width:30px;}
-.anim-price{
-  margin-left:auto;color:var(--orange);font-weight:600;font-size:0.85rem;
-}
-.anim-cart{
-  display:flex;justify-content:space-between;align-items:center;
-  background:var(--bg-soft);border:1px solid var(--line);border-radius:8px;
-  padding:10px 12px;font-size:0.78rem;color:var(--grey);
-  opacity:0;animation:fadeUp .5s ease forwards;animation-delay:1.6s;
-}
-@keyframes fadeUp{to{opacity:1;}}
-.anim-cart-btn{
-  color:var(--orange);font-weight:600;
-  position:relative;
-}
-.anim-cart-btn::after{
-  content:'';position:absolute;inset:-6px -10px;
-  border:1px solid var(--orange);border-radius:6px;
-  opacity:0;animation:pulseRing 2s ease-in-out infinite;animation-delay:2.2s;
-}
-@keyframes pulseRing{
-  0%,100%{opacity:0;transform:scale(0.9);}
-  50%{opacity:0.7;transform:scale(1.05);}
-}
-
-/* --- Orders demo --- */
-.anim-orders-list{display:flex;flex-direction:column;gap:8px;flex:1;justify-content:center;}
-.anim-order{
-  display:flex;align-items:center;gap:10px;
-  background:var(--bg-soft);border:1px solid var(--line);border-radius:8px;
-  padding:9px 12px;font-size:0.78rem;
-  opacity:0;transform:translateY(10px);
-  animation:orderIn .5s ease forwards;
-  animation-delay:var(--d);
-}
-@keyframes orderIn{to{opacity:1;transform:translateY(0);}}
-.anim-table{font-weight:700;color:var(--orange);width:50px;flex-shrink:0;}
-.anim-order-text{flex:1;color:var(--white);}
-.anim-badge{
-  font-size:0.68rem;padding:3px 8px;border-radius:5px;
-  text-transform:uppercase;letter-spacing:0.05em;flex-shrink:0;
-}
-.anim-badge.new{background:var(--orange-dim);color:var(--orange);animation:badgeBlink 1.4s ease-in-out infinite;}
-.anim-badge.prep{background:#ffb02e22;color:#ffb02e;}
-.anim-badge.ready{background:#4ade8022;color:#4ade80;}
-@keyframes badgeBlink{0%,100%{opacity:1;}50%{opacity:0.4;}}
-
-/* --- Stock/management demo --- */
-.anim-kpis{display:flex;gap:10px;}
-.anim-kpi{
-  flex:1;background:var(--bg-soft);border:1px solid var(--line);border-radius:8px;
-  padding:10px 12px;display:flex;flex-direction:column;gap:4px;
-}
-.anim-kpi-label{font-size:0.65rem;color:var(--grey);text-transform:uppercase;letter-spacing:0.08em;}
-.anim-kpi-value{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:var(--white);}
-.anim-kpi-sub{font-size:0.7rem;color:var(--grey);}
-.anim-stock-rows{display:flex;flex-direction:column;gap:8px;flex:1;justify-content:center;}
-.anim-stock-row{
-  display:flex;align-items:center;gap:10px;font-size:0.78rem;
-}
-.anim-stock-row>span:first-child{width:90px;flex-shrink:0;color:var(--white);}
-.anim-stock-bar{flex:1;height:6px;background:var(--bg-soft);border-radius:3px;overflow:hidden;border:1px solid var(--line);}
-.anim-stock-fill{
-  height:100%;width:0;transform-origin:left;
-  animation:fillBar 1.4s ease-out forwards;animation-delay:0.4s;
-}
-.anim-stock-fill.ok{background:#4ade80;}
-.anim-stock-fill.low{background:var(--orange);}
-@keyframes fillBar{to{width:var(--w);}}
-.anim-pill{
-  font-size:0.68rem;padding:3px 8px;border-radius:12px;
-  text-transform:uppercase;letter-spacing:0.05em;flex-shrink:0;width:54px;text-align:center;
-}
-.anim-pill.ok{background:#4ade8022;color:#4ade80;}
-.anim-pill.low{background:var(--orange-dim);color:var(--orange);}
-.video-caption{padding:18px 20px;}
-.video-caption h4{font-size:1rem;font-weight:600;margin-bottom:4px;}
-.video-caption p{color:var(--grey);font-size:0.88rem;}
-@media (max-width:900px){
-  .video-grid{grid-template-columns:1fr;}
+@media(max-width:600px){
+  .steps{grid-template-columns:1fr}
+  .stats-bar{grid-template-columns:1fr}
+  nav{padding:0 16px}
+  .container{padding:0 20px}
+  .hero-main{padding:36px 20px 0}
+  .hero-robot{height:320px}
+  footer{flex-direction:column;gap:8px;text-align:center}
 }
 </style>
 </head>
 <body>
 
-<div class="tech-cursor" id="techCursor"></div>
-<div class="tech-cursor-dot" id="techCursorDot"></div>
-<div class="scroll-progress" id="scrollProgress"></div>
-
-<header>
-  <nav>
-    <div class="logo-mark">
-      <img class="logo-icon" src="logo-mark.png" alt="">
-      <span>ASCEND<em>I</em>X</span>
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <span class="logo-icon">⚙</span>
+    <div class="logo-text">
+      <span class="logo-name">ASCENDIX</span>
+      <span class="logo-sub" data-i18n="logo.sub">Engenharia · Software</span>
     </div>
-    <div class="nav-links">
-      <a href="#servicos" data-i18n="nav.services">Serviços</a>
-      <a href="#demo" data-i18n="nav.system">Sistema</a>
-      <a href="#demo-producao" data-i18n="nav.production">Produção</a>
-      <a href="#videos" data-i18n="nav.videos">Vídeos</a>
-      <a href="#processo" data-i18n="nav.process">Processo</a>
-      <a href="#contacto" class="nav-cta" data-i18n="nav.cta">Falar com a equipa</a>
-      <div class="lang-switch">
-        <button class="lang-btn active" data-lang="pt">PT</button>
-        <span class="lang-sep">/</span>
-        <button class="lang-btn" data-lang="en">EN</button>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#sobre"      data-i18n="nav.sobre">Sobre</a></li>
+    <li><a href="#metodologia" data-i18n="nav.met">Metodologia</a></li>
+    <li><a href="#servicos"   data-i18n="nav.srv">Serviços</a></li>
+    <li><a href="#faq"        data-i18n="nav.faq">FAQ</a></li>
+    <li><a href="#contacto"   data-i18n="nav.contact">Contacto</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="mailto:comercial@ascendixeng.pt" class="nav-email">comercial@ascendixeng.pt</a>
+
+    <!-- LANGUAGE SWITCHER -->
+    <div class="lang-sw">
+      <button class="lang-btn active" id="btn-pt" onclick="setLang('pt')">PT</button>
+      <div class="lang-sep"></div>
+      <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
+
+    <a href="#contacto" class="btn btn-yellow" data-i18n="nav.proposta">Pedir Proposta</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-main">
+
+    <!-- LEFT — texto -->
+    <div class="hero-left">
+      <div class="tag-row">
+        <span class="tag-dot"></span>
+        <span data-i18n="hero.tag">ENGENHARIA DE SOFTWARE · SISTEMAS CRÍTICOS · SLA CONTRATUAL · PORTUGAL</span>
       </div>
-    </div>
-  </nav>
-</header>
-
-<!-- ============ HERO ============ -->
-<section class="hero">
-  <div class="cursor-glow" id="cursorGlow"></div>
-  <div class="wrap hero-grid">
-    <div>
-      <div class="terminal"><span id="terminalText">a iniciar sistema_</span><span class="cursor-char"></span></div>
-      <div class="eyebrow" data-i18n="hero.eyebrow">Engenharia de Software</div>
-      <h1 data-i18n="hero.title">Engenharia de software<br>que <span class="accent">acelera</span> o seu negócio.</h1>
-      <p class="lead" data-i18n="hero.lead">
-        Criamos sites, aplicações e sistemas de automação à medida.
-        Da ideia ao produto em produção — engenharia a sério, identidade própria.
+      <div class="hero-h">
+        <span class="l1" data-i18n="hero.l1">ENGENHARIA DE SOFTWARE</span>
+        <span class="l2" data-i18n="hero.l2">PARA OPERAÇÕES EXIGENTES.</span>
+        <span class="l3" data-i18n="hero.l3">SISTEMAS QUE NÃO PARAM.</span>
+      </div>
+      <p class="hero-desc" data-i18n-html="hero.desc">
+        A <strong>Ascendix Engenharia</strong> projeta, desenvolve e opera plataformas de missão crítica. Código limpo, arquitetura sólida, entregas previsíveis — sob SLA, com suporte e conformidade RGPD.
       </p>
       <div class="hero-actions">
-        <a href="#contacto" class="btn btn-primary" data-i18n="hero.cta1">Falar com a equipa</a>
-        <a href="#demo" class="btn btn-ghost" data-i18n="hero.cta2">Testar o sistema</a>
+        <a href="#servicos" class="btn btn-yellow" style="padding:13px 26px;font-size:11px" data-i18n="hero.btn1">Os Nossos Serviços →</a>
+        <a href="#contacto" class="btn btn-outline" style="padding:13px 26px;font-size:11px" data-i18n="hero.btn2">Pedir Proposta</a>
+        <span class="available"><span class="pulse"></span><span data-i18n="hero.available">Disponível para novos projetos</span></span>
       </div>
-      <div class="stats reveal-stagger">
+    </div>
+
+    <!-- RIGHT — robô 3D interativo -->
+    <div class="hero-robot">
+      <spline-viewer
+        url="https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode"
+        style="width:100%;height:100%;background:transparent">
+      </spline-viewer>
+    </div>
+
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat-lbl" data-i18n="stat.uptime">Uptime em Produção</div>
+      <div class="stat-val"><span class="ctr" data-t="99.3" data-d="1">0</span>%</div>
+      <div class="stat-track"><div class="stat-fill" data-w="99.3"></div></div>
+    </div>
+    <div class="stat">
+      <div class="stat-lbl" data-i18n="stat.tx">Transações Processadas</div>
+      <div class="stat-val"><span class="ctr" data-t="24318" data-d="0">0</span></div>
+      <div class="stat-track"><div class="stat-fill" data-w="42"></div></div>
+    </div>
+    <div class="stat">
+      <div class="stat-lbl" data-i18n="stat.clients">Clientes Ativos</div>
+      <div class="stat-val"><span class="ctr" data-t="13" data-d="0">0</span></div>
+      <div class="stat-track"><div class="stat-fill" data-w="65"></div></div>
+    </div>
+    <div class="stat">
+      <div class="stat-lbl" data-i18n="stat.routines">Rotinas Automatizadas</div>
+      <div class="stat-val"><span class="ctr" data-t="89" data-d="0">0</span></div>
+      <div class="stat-track"><div class="stat-fill" data-w="35"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="container">
+    <div class="about-grid">
+      <div>
+        <div class="sec-lbl" data-i18n="sobre.lbl">SOBRE.ASCENDIX</div>
+        <div class="sec-h">
+          <span class="w" data-i18n="sobre.h1">SOFTWARE DE</span>
+          <span class="m" data-i18n="sobre.h2">MISSÃO CRÍTICA.</span>
+        </div>
+        <p class="about-p" data-i18n-html="sobre.p1">A Ascendix nasceu em Dezembro de 2025 com um princípio simples: <strong>código que funciona em produção, entregue dentro do prazo e do orçamento acordado.</strong></p>
+        <p class="about-p" data-i18n="sobre.p2">Trabalhamos com organizações que precisam de fiabilidade, não de promessas. Cada projeto combina engenharia rigorosa, documentação completa e suporte continuado.</p>
+        <div class="about-kpis">
+          <div class="kpi"><div class="kpi-v">3</div><div class="kpi-l" data-i18n="kpi.years">Anos de Engenharia</div></div>
+          <div class="kpi"><div class="kpi-v">100%</div><div class="kpi-l" data-i18n="kpi.code">Código Próprio</div></div>
+          <div class="kpi"><div class="kpi-v">24/7</div><div class="kpi-l" data-i18n="kpi.monitor">Monitorização</div></div>
+        </div>
+      </div>
+      <div class="about-cards">
+        <div class="acard">
+          <div class="acard-icon">🏗️</div>
+          <div class="acard-title" data-i18n="card1.t">Software como Infra-estrutura</div>
+          <p class="acard-desc" data-i18n="card1.d">Construímos plataformas que sustentam a operação 24/7. Cada release passa por revisão de arquitetura, testes automatizados e validação em pré-produção.</p>
+        </div>
+        <div class="acard">
+          <div class="acard-icon">🛡️</div>
+          <div class="acard-title" data-i18n="card2.t">Conformidade e Segurança</div>
+          <p class="acard-desc" data-i18n="card2.d">RGPD, encriptação em trânsito e em repouso, gestão de acessos por perfil e logs de auditoria imutáveis. Sem atalhos.</p>
+        </div>
+        <div class="acard">
+          <div class="acard-icon">🔧</div>
+          <div class="acard-title" data-i18n="card3.t">Engenharia Rastreável</div>
+          <p class="acard-desc" data-i18n="card3.d">Git, code review obrigatório, ambientes isolados (dev / stage / prod) e pipelines CI/CD. Cada linha de código é auditável.</p>
+        </div>
+        <div class="acard">
+          <div class="acard-icon">🤝</div>
+          <div class="acard-title" data-i18n="card4.t">Suporte Contratualizado</div>
+          <p class="acard-desc" data-i18n="card4.d">SLA claro, tempos de resposta garantidos, relatórios mensais e plano de continuidade documentado e testado.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METODOLOGIA -->
+<section id="metodologia">
+  <div class="container">
+    <div class="method-top">
+      <div>
+        <div class="sec-lbl" data-i18n="met.lbl">METODOLOGIA.ENTREGA</div>
+        <div class="sec-h">
+          <span class="w" data-i18n="met.h1">MÉTODO ESTRUTURADO.</span>
+          <span class="m" data-i18n="met.h2">ENTREGAS PREVISÍVEIS.</span>
+        </div>
+      </div>
+      <p class="method-desc" data-i18n="met.desc">Cinco fases com entregáveis documentados em cada uma. Sem caixas pretas, sem surpresas no orçamento. Iteramos em ciclos curtos para que veja valor desde a segunda semana.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-hdr"><span class="step-num">01</span><span class="step-time" data-i18n="s1.time">1–2<br>Semanas</span></div>
+        <div class="step-title" data-i18n="s1.title">Descoberta</div>
+        <ul class="step-list">
+          <li data-i18n="s1.l1">Workshops com operação e gestão</li>
+          <li data-i18n="s1.l2">Mapeamento de processos (AS-IS)</li>
+          <li data-i18n="s1.l3">Identificação de KPIs e fricções</li>
+          <li data-i18n="s1.l4">Documento de visão assinado</li>
+        </ul>
+      </div>
+      <div class="step">
+        <div class="step-hdr"><span class="step-num">02</span><span class="step-time" data-i18n="s2.time">1–3<br>Semanas</span></div>
+        <div class="step-title" data-i18n="s2.title">Arquitetura</div>
+        <ul class="step-list">
+          <li data-i18n="s2.l1">Modelo de dados e fluxos de eventos</li>
+          <li data-i18n="s2.l2">Decisões tecnológicas (ADRs)</li>
+          <li data-i18n="s2.l3">Plano de integrações</li>
+          <li data-i18n="s2.l4">Estimativa cloud e custos</li>
+        </ul>
+      </div>
+      <div class="step">
+        <div class="step-hdr"><span class="step-num">03</span><span class="step-time" data-i18n="s3.time">Sprints de<br>2 Semanas</span></div>
+        <div class="step-title" data-i18n="s3.title">Desenvolvimento</div>
+        <ul class="step-list">
+          <li data-i18n="s3.l1">Entregas incrementais validadas</li>
+          <li data-i18n="s3.l2">Code review e testes automáticos</li>
+          <li data-i18n="s3.l3">Demo quinzenal ao cliente</li>
+          <li data-i18n="s3.l4">Documentação técnica contínua</li>
+        </ul>
+      </div>
+      <div class="step">
+        <div class="step-hdr"><span class="step-num">04</span><span class="step-time" data-i18n="s4.time">2–4<br>Semanas</span></div>
+        <div class="step-title" data-i18n="s4.title">Go-Live</div>
+        <ul class="step-list">
+          <li data-i18n="s4.l1">Migração e ensaios de carga</li>
+          <li data-i18n="s4.l2">Formação de utilizadores</li>
+          <li data-i18n="s4.l3">Plano de rollback documentado</li>
+          <li data-i18n="s4.l4">Acompanhamento nos primeiros dias</li>
+        </ul>
+      </div>
+      <div class="step">
+        <div class="step-hdr"><span class="step-num">05</span><span class="step-time" data-i18n="s5.time">Contínuo</span></div>
+        <div class="step-title" data-i18n="s5.title">Operação</div>
+        <ul class="step-list">
+          <li data-i18n="s5.l1">Monitorização 24/7 e alertas</li>
+          <li data-i18n="s5.l2">SLA e relatórios mensais</li>
+          <li data-i18n="s5.l3">Roadmap de evolução</li>
+          <li data-i18n="s5.l4">Auditorias de segurança</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVIÇOS -->
+<section id="servicos">
+  <div class="container">
+    <div class="srv-intro">
+      <div>
+        <div class="sec-lbl" data-i18n="srv.lbl">SERVIÇOS.ENTREGÁVEIS</div>
+        <div class="sec-h">
+          <span class="w" data-i18n="srv.h1">O QUE FAZEMOS,</span>
+          <span class="m" data-i18n="srv.h2">SEM RODEIOS.</span>
+        </div>
+      </div>
+      <p class="srv-intro-desc" data-i18n="srv.desc">Engenharia de software do princípio ao fim — arquitetura, código, integrações, cloud, segurança e suporte. Sem subcontratação, sem surpresas.</p>
+    </div>
+    <div class="srv-rows">
+      <div class="srv-row">
+        <div class="srv-row-num">01</div>
         <div>
-          <div class="stat-num" data-target="100" data-suffix="%">0%</div>
-          <div class="stat-label" data-i18n="hero.stat1">Soluções à medida</div>
+          <div class="srv-row-title" data-i18n="r1.t">Desenvolvimento à Medida</div>
+          <div class="srv-row-tag" data-i18n="r1.tag">Web · Mobile · API · Backend</div>
         </div>
+        <div class="srv-row-desc" data-i18n="r1.d">Aplicações web e mobile construídas sobre os requisitos reais do negócio. Frontend reativo, backend robusto, APIs bem documentadas e testes automatizados em cada sprint.</div>
+      </div>
+      <div class="srv-row">
+        <div class="srv-row-num">02</div>
         <div>
-          <div class="stat-num" data-i18n="hero.stat2num">Web · App · Automação</div>
-          <div class="stat-label" data-i18n="hero.stat2">Áreas de atuação</div>
+          <div class="srv-row-title" data-i18n="r2.t">Arquitetura de Sistemas</div>
+          <div class="srv-row-tag" data-i18n="r2.tag">Design · ADRs · Escalabilidade</div>
         </div>
+        <div class="srv-row-desc" data-i18n="r2.d">Definição da estrutura técnica antes de escrever a primeira linha — modelo de dados, fluxos de eventos, decisões documentadas e estimativa de custos cloud.</div>
+      </div>
+      <div class="srv-row">
+        <div class="srv-row-num">03</div>
         <div>
-          <div class="stat-num">PT</div>
-          <div class="stat-label" data-i18n="hero.stat3">Equipa local, suporte direto</div>
+          <div class="srv-row-title" data-i18n="r3.t">Integrações e APIs</div>
+          <div class="srv-row-tag" data-i18n="r3.tag">REST · GraphQL · Webhooks · ERP</div>
         </div>
+        <div class="srv-row-desc" data-i18n="r3.d">Conexão entre sistemas — ERPs, contabilidades, meios de pagamento e sistemas legados. Documentação OpenAPI incluída e testes de contrato em cada endpoint.</div>
       </div>
-    </div>
-    <div class="hero-visual">
-      <div class="ring ring1"></div>
-      <div class="ring ring2"></div>
-      <div class="scan-line"></div>
-      <model-viewer
-        class="logo-3d-model"
-        src="models/ascendix-logo.glb"
-        poster="logo-3d.png"
-        alt="Logo Ascendix 3D"
-        loading="eager"
-        reveal="auto"
-        auto-rotate
-        auto-rotate-delay="0"
-        rotation-per-second="30deg"
-        camera-controls
-        disable-zoom
-        interaction-prompt="none"
-        shadow-intensity="0"
-        exposure="1.1"
-        camera-orbit="0deg 75deg 105%"
-        field-of-view="30deg">
-      </model-viewer>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SERVIÇOS ============ -->
-<section class="services" id="servicos">
-  <div class="wrap section">
-    <div class="section-head reveal">
-      <div class="section-tag" data-i18n="services.tag">O que fazemos</div>
-      <h2 data-i18n="services.title">Três áreas. Um único parceiro técnico.</h2>
-      <p data-i18n="services.subtitle">Trabalhamos do front-end ao back-office — para que a tecnologia deixe de ser um problema e passe a ser o motor do negócio.</p>
-    </div>
-  </div>
-  <div class="wrap" style="padding-bottom:0;">
-    <div class="service-grid reveal-stagger">
-      <div class="service-card">
-        <div class="service-icon">◆</div>
-        <div class="service-num" data-i18n="services.s1.num">01 · Websites</div>
-        <h3 data-i18n="services.s1.title">Sites institucionais &amp; lojas online</h3>
-        <p data-i18n="services.s1.text">Design moderno, rápido e otimizado — pensado para converter visitantes em clientes, com gestão de conteúdos simples.</p>
-        <span class="service-arrow" data-i18n="services.more">→ saber mais</span>
+      <div class="srv-row">
+        <div class="srv-row-num">04</div>
+        <div>
+          <div class="srv-row-title" data-i18n="r4.t">Cloud e DevOps</div>
+          <div class="srv-row-tag" data-i18n="r4.tag">AWS · Azure · GCP · CI/CD · IaC</div>
+        </div>
+        <div class="srv-row-desc" data-i18n="r4.d">Infraestrutura como código, pipelines CI/CD, ambientes isolados por projeto e monitorização com alertas proactivos. Cada deploy é rastreável e reversível.</div>
       </div>
-      <div class="service-card">
-        <div class="service-icon">▣</div>
-        <div class="service-num" data-i18n="services.s2.num">02 · Aplicações</div>
-        <h3 data-i18n="services.s2.title">Aplicações web &amp; móveis</h3>
-        <p data-i18n="services.s2.text">Plataformas internas, apps para clientes ou colaboradores, integradas com os sistemas que já usa no dia a dia.</p>
-        <span class="service-arrow" data-i18n="services.more">→ saber mais</span>
+      <div class="srv-row">
+        <div class="srv-row-num">05</div>
+        <div>
+          <div class="srv-row-title" data-i18n="r5.t">Segurança e Conformidade</div>
+          <div class="srv-row-tag" data-i18n="r5.tag">RGPD · OAuth 2.0 · Auditoria · RBAC</div>
+        </div>
+        <div class="srv-row-desc" data-i18n="r5.d">Autenticação robusta, gestão de acessos por perfil, encriptação AES-256, logs imutáveis e DPA assinado. Conformidade RGPD de ponta a ponta.</div>
       </div>
-      <div class="service-card">
-        <div class="service-icon">⟲</div>
-        <div class="service-num" data-i18n="services.s3.num">03 · Automação</div>
-        <h3 data-i18n="services.s3.title">Automação de processos</h3>
-        <p data-i18n="services.s3.text">Eliminamos tarefas repetitivas: stocks, pedidos, faturação e reporting a funcionar sozinhos, em tempo real.</p>
-        <span class="service-arrow" data-i18n="services.more">→ saber mais</span>
+      <div class="srv-row">
+        <div class="srv-row-num">06</div>
+        <div>
+          <div class="srv-row-title" data-i18n="r6.t">Suporte e Operação</div>
+          <div class="srv-row-tag" data-i18n="r6.tag">SLA · 24/7 · Relatórios · Roadmap</div>
+        </div>
+        <div class="srv-row-desc" data-i18n="r6.d">Contratos de suporte com tempos de resposta garantidos, monitorização contínua, relatórios mensais e evolução do produto sob roadmap co-criado com o cliente.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ DEMO: SISTEMA DE RESTAURAÇÃO ============ -->
-<section class="demo section" id="demo">
-  <div class="wrap">
-    <div class="demo-layout">
-      <div class="demo-text reveal">
-        <div class="section-tag" data-i18n="demo1.tag">Caso real · Restauração</div>
-        <h2 data-i18n="demo1.title">O seu restaurante, totalmente digital.</h2>
-        <p data-i18n="demo1.text">
-          Sistema completo de gestão para restaurantes: cardápio digital via tablet
-          na mesa, gestão de pedidos em tempo real e controlo de stock — tudo
-          numa só plataforma. Veja abaixo uma demonstração interativa.
-        </p>
-        <div class="feature-list">
-          <div class="feature-item">
-            <div class="feature-dot"></div>
-            <div>
-              <h4 data-i18n="demo1.f1.title">Cardápio digital na mesa</h4>
-              <p data-i18n="demo1.f1.text">Clientes consultam, personalizam e enviam o pedido diretamente do tablet — sem esperar por um empregado.</p>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-dot"></div>
-            <div>
-              <h4 data-i18n="demo1.f2.title">Gestão de pedidos em tempo real</h4>
-              <p data-i18n="demo1.f2.text">A cozinha recebe os pedidos instantaneamente, organizados por mesa e prioridade.</p>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-dot"></div>
-            <div>
-              <h4 data-i18n="demo1.f3.title">Controlo de stock automático</h4>
-              <p data-i18n="demo1.f3.text">Cada venda atualiza o inventário. Alertas automáticos quando um ingrediente está a acabar.</p>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-dot"></div>
-            <div>
-              <h4 data-i18n="demo1.f4.title">Visão de gestão completa</h4>
-              <p data-i18n="demo1.f4.text">Faturação, mesas ativas e desempenho — num painel único, acessível em qualquer dispositivo.</p>
-            </div>
-          </div>
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="faq-layout">
+      <div>
+        <div class="sec-lbl" data-i18n="faq.lbl">PERGUNTAS.FREQUENTES</div>
+        <div class="sec-h">
+          <span class="w" data-i18n="faq.h1">PERGUNTAS</span>
+          <span class="m" data-i18n="faq.h2">FREQUENTES.</span>
         </div>
+        <p class="faq-note" data-i18n-html="faq.note">Não encontrou o que procurava? Escreva para <a href="mailto:comercial@ascendixeng.pt">comercial@ascendixeng.pt</a>.</p>
       </div>
-
-      <!-- Interactive demo panel -->
-      <div class="demo-panel reveal">
-        <div class="demo-tabs">
-          <div class="demo-tab active" data-tab="menu" data-i18n="demo1.tab1">Cardápio (Tablet)</div>
-          <div class="demo-tab" data-tab="orders" data-i18n="demo1.tab2">Pedidos</div>
-          <div class="demo-tab" data-tab="stock" data-i18n="demo1.tab3">Gestão &amp; Stock</div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-q"><span class="faq-q-num">01</span><span class="faq-q-txt" data-i18n="q1.q">Com que tipo de empresas trabalham?</span><span class="faq-chevron">⌄</span></div>
+          <div class="faq-a"><div class="faq-a-inner" data-i18n="q1.a">Trabalhamos com PMEs e médias empresas que precisam de software feito à medida — em qualquer setor. O foco é em operações onde a fiabilidade é crítica e as soluções de prateleira não chegam.</div></div>
         </div>
-        <div class="demo-body">
-
-          <!-- TAB: cardápio -->
-          <div class="tab-content active" id="tab-menu">
-            <div class="menu-grid">
-              <div class="menu-item" onclick="toggleSelect(this, 8.50)">
-                <div class="tag">Entrada</div>
-                <h5>Bruschetta de Tomate</h5>
-                <div class="price">€8,50</div>
-              </div>
-              <div class="menu-item" onclick="toggleSelect(this, 14.90)">
-                <div class="tag">Principal</div>
-                <h5>Risotto de Cogumelos</h5>
-                <div class="price">€14,90</div>
-              </div>
-              <div class="menu-item" onclick="toggleSelect(this, 16.50)">
-                <div class="tag">Principal</div>
-                <h5>Bacalhau à Brás</h5>
-                <div class="price">€16,50</div>
-              </div>
-              <div class="menu-item" onclick="toggleSelect(this, 5.00)">
-                <div class="tag">Bebida</div>
-                <h5>Vinho da Casa (copo)</h5>
-                <div class="price">€5,00</div>
-              </div>
-              <div class="menu-item" onclick="toggleSelect(this, 6.50)">
-                <div class="tag">Sobremesa</div>
-                <h5>Pudim Caseiro</h5>
-                <div class="price">€6,50</div>
-              </div>
-              <div class="menu-item" onclick="toggleSelect(this, 4.00)">
-                <div class="tag">Bebida</div>
-                <h5>Água &amp; Refrigerante</h5>
-                <div class="price">€4,00</div>
-              </div>
-            </div>
-            <div class="cart-bar">
-              <span>Mesa 7 · <span id="item-count">0</span> itens selecionados</span>
-              <span>€<span id="cart-total">0,00</span></span>
-            </div>
-          </div>
-
-          <!-- TAB: pedidos -->
-          <div class="tab-content" id="tab-orders">
-            <div class="order-row">
-              <div class="table-no">Mesa 3</div>
-              <div class="order-info">
-                <strong>2x Risotto · 1x Vinho</strong>
-                <span>Enviado há 1 min</span>
-              </div>
-              <div class="order-status os-new">Novo</div>
-            </div>
-            <div class="order-row">
-              <div class="table-no">Mesa 7</div>
-              <div class="order-info">
-                <strong>1x Bacalhau · 1x Bruschetta</strong>
-                <span>Enviado há 6 min</span>
-              </div>
-              <div class="order-status os-prep">Em preparação</div>
-            </div>
-            <div class="order-row">
-              <div class="table-no">Mesa 1</div>
-              <div class="order-info">
-                <strong>3x Pudim · 2x Água</strong>
-                <span>Enviado há 11 min</span>
-              </div>
-              <div class="order-status os-ready">Pronto a servir</div>
-            </div>
-            <div class="order-row">
-              <div class="table-no">Mesa 12</div>
-              <div class="order-info">
-                <strong>1x Bacalhau · 2x Vinho · 1x Pudim</strong>
-                <span>Enviado há 14 min</span>
-              </div>
-              <div class="order-status os-prep">Em preparação</div>
-            </div>
-          </div>
-
-          <!-- TAB: stock / gestão -->
-          <div class="tab-content" id="tab-stock">
-            <div class="kpi-grid">
-              <div class="kpi">
-                <div class="kpi-label">Faturação hoje</div>
-                <div class="kpi-value">€1.284</div>
-                <div class="kpi-trend up">↑ 12% vs. ontem</div>
-              </div>
-              <div class="kpi">
-                <div class="kpi-label">Mesas ativas</div>
-                <div class="kpi-value">9 / 14</div>
-                <div class="kpi-trend up">64% ocupação</div>
-              </div>
-              <div class="kpi">
-                <div class="kpi-label">Tempo médio</div>
-                <div class="kpi-value">23 min</div>
-                <div class="kpi-trend down">↓ pedido → entrega</div>
-              </div>
-            </div>
-            <table class="stock-table">
-              <thead>
-                <tr><th>Ingrediente</th><th>Stock</th><th>Nível</th><th>Estado</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Bacalhau</td>
-                  <td>4 kg</td>
-                  <td style="width:140px"><div class="stock-bar"><div class="stock-fill" style="width:20%"></div></div></td>
-                  <td><span class="status-pill low">Repor</span></td>
-                </tr>
-                <tr>
-                  <td>Arroz Carolino</td>
-                  <td>22 kg</td>
-                  <td style="width:140px"><div class="stock-bar"><div class="stock-fill" style="width:80%"></div></div></td>
-                  <td><span class="status-pill ok">Normal</span></td>
-                </tr>
-                <tr>
-                  <td>Cogumelos</td>
-                  <td>3 kg</td>
-                  <td style="width:140px"><div class="stock-bar"><div class="stock-fill" style="width:15%"></div></div></td>
-                  <td><span class="status-pill low">Repor</span></td>
-                </tr>
-                <tr>
-                  <td>Vinho da Casa</td>
-                  <td>18 garrafas</td>
-                  <td style="width:140px"><div class="stock-bar"><div class="stock-fill" style="width:60%"></div></div></td>
-                  <td><span class="status-pill ok">Normal</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
+        <div class="faq-item">
+          <div class="faq-q"><span class="faq-q-num">02</span><span class="faq-q-txt" data-i18n="q2.q">O software é desenvolvido à medida ou é um produto fechado?</span><span class="faq-chevron">⌄</span></div>
+          <div class="faq-a"><div class="faq-a-inner" data-i18n="q2.a">Totalmente à medida. Não há produto de prateleira nem licenças recorrentes forçadas. Entregamos código que fica na sua organização — versionado, documentado e com conhecimento transferido.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span class="faq-q-num">03</span><span class="faq-q-txt" data-i18n="q3.q">Quanto tempo demora um projeto típico?</span><span class="faq-chevron">⌄</span></div>
+          <div class="faq-a"><div class="faq-a-inner" data-i18n="q3.a">Entre 8 e 20 semanas dependendo da complexidade. Os primeiros módulos funcionais chegam na terceira semana, com demonstrações quinzenais ao cliente.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span class="faq-q-num">04</span><span class="faq-q-txt" data-i18n="q4.q">Como funciona o suporte depois do Go-Live?</span><span class="faq-chevron">⌄</span></div>
+          <div class="faq-a"><div class="faq-a-inner" data-i18n="q4.a">Todos os projetos incluem SLA definido com tempos de resposta garantidos, monitorização proactiva e relatórios mensais de operação. Não desaparecemos depois da entrega.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span class="faq-q-num">05</span><span class="faq-q-txt" data-i18n="q5.q">Os dados cumprem o RGPD?</span><span class="faq-chevron">⌄</span></div>
+          <div class="faq-a"><div class="faq-a-inner" data-i18n="q5.a">Sim. Infraestrutura europeia, encriptação AES-256, RBAC, logs de auditoria imutáveis e DPA assinado. Conformidade RGPD é um requisito de projeto, não um extra.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span class="faq-q-num">06</span><span class="faq-q-txt" data-i18n="q6.q">Conseguem integrar com os nossos sistemas atuais?</span><span class="faq-chevron">⌄</span></div>
+          <div class="faq-a"><div class="faq-a-inner" data-i18n="q6.a">Sim. A fase de Arquitetura inclui o mapeamento completo de todas as integrações. Temos experiência com SAP, Primavera, PHC, Sage e a maioria dos sistemas portugueses via APIs ou SAF-T.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span class="faq-q-num">07</span><span class="faq-q-txt" data-i18n="q7.q">Quanto custa?</span><span class="faq-chevron">⌄</span></div>
+          <div class="faq-a"><div class="faq-a-inner" data-i18n="q7.a">Após a fase de Descoberta apresentamos uma proposta com preço fixo por fase — sem estimativas vagas. A Descoberta em si é remunerada e entrega documentos concretos, independentemente de o projeto avançar.</div></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ DEMO 2: GESTÃO DE PRODUÇÃO ============ -->
-<section class="demo section" id="demo-producao" style="border-top:1px solid var(--line);">
-  <div class="wrap">
-    <div class="demo-layout demo-layout-rev">
+<!-- CONTACTO -->
+<section id="contacto">
 
-      <!-- Interactive demo panel -->
-      <div class="demo-panel reveal">
-        <div class="demo-tabs">
-          <div class="demo-tab active" data-group="prod" data-tab="prod-stock" data-i18n="demo2.tab1">Stock de Produção</div>
-          <div class="demo-tab" data-group="prod" data-tab="prod-acesso" data-i18n="demo2.tab2">Entrada/Saída</div>
-          <div class="demo-tab" data-group="prod" data-tab="prod-kpi" data-i18n="demo2.tab3">Desempenho</div>
-        </div>
-        <div class="demo-body">
+  <!-- Lamp layers -->
+  <div class="ct-blur"></div>
+  <div class="ct-glow"></div>
+  <div class="ct-glow-sm"></div>
+  <div class="ct-line"></div>
+  <div class="ct-cone-l"></div>
+  <div class="ct-cone-r"></div>
 
-          <!-- TAB: stock de produção -->
-          <div class="tab-content active" id="tab-prod-stock">
-            <table class="stock-table">
-              <thead>
-                <tr><th>Material / Insumo</th><th>Stock</th><th>Nível</th><th>Estado</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Chapa de Aço 2mm</td>
-                  <td>340 un.</td>
-                  <td style="width:140px"><div class="stock-bar"><div class="stock-fill" style="width:72%"></div></div></td>
-                  <td><span class="status-pill ok">Normal</span></td>
-                </tr>
-                <tr>
-                  <td>Tinta Industrial</td>
-                  <td>18 L</td>
-                  <td style="width:140px"><div class="stock-bar"><div class="stock-fill" style="width:18%"></div></div></td>
-                  <td><span class="status-pill low">Repor</span></td>
-                </tr>
-                <tr>
-                  <td>Parafusos M6</td>
-                  <td>4.200 un.</td>
-                  <td style="width:140px"><div class="stock-bar"><div class="stock-fill" style="width:85%"></div></div></td>
-                  <td><span class="status-pill ok">Normal</span></td>
-                </tr>
-                <tr>
-                  <td>Componentes eletrónicos</td>
-                  <td>96 un.</td>
-                  <td style="width:140px"><div class="stock-bar"><div class="stock-fill" style="width:22%"></div></div></td>
-                  <td><span class="status-pill low">Repor</span></td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="cart-bar" style="margin-top:18px;">
-              <span>Produto em linha · Lote #2026-114</span>
-              <span style="color:var(--orange);">68% concluído</span>
-            </div>
-          </div>
+  <!-- Content -->
+  <div class="contact-inner">
 
-          <!-- TAB: entrada/saída de veículos e equipamentos -->
-          <div class="tab-content" id="tab-prod-acesso">
-            <div class="order-row">
-              <div class="table-no" style="width:80px;">07:42</div>
-              <div class="order-info">
-                <strong>Camião · Matrícula AB-12-CD</strong>
-                <span>Entrada · Fornecedor Aço Norte</span>
-              </div>
-              <div class="order-status os-ready">Registado</div>
-            </div>
-            <div class="order-row">
-              <div class="table-no" style="width:80px;">08:15</div>
-              <div class="order-info">
-                <strong>Empilhadora #03</strong>
-                <span>Saída · Armazém A → Linha 2</span>
-              </div>
-              <div class="order-status os-prep">Em uso</div>
-            </div>
-            <div class="order-row">
-              <div class="table-no" style="width:80px;">09:30</div>
-              <div class="order-info">
-                <strong>Furgão · Matrícula XT-45-LZ</strong>
-                <span>Saída · Entrega cliente Lisboa</span>
-              </div>
-              <div class="order-status os-new">Em trânsito</div>
-            </div>
-            <div class="order-row">
-              <div class="table-no" style="width:80px;">10:05</div>
-              <div class="order-info">
-                <strong>Gerador Móvel #01</strong>
-                <span>Entrada · Manutenção preventiva</span>
-              </div>
-              <div class="order-status os-ready">Registado</div>
-            </div>
-          </div>
+    <div class="sec-lbl" data-i18n="ct.lbl" style="justify-content:center">CONTACTO.DIRETO</div>
 
-          <!-- TAB: desempenho / gráficos -->
-          <div class="tab-content" id="tab-prod-kpi">
-            <div class="kpi-grid">
-              <div class="kpi">
-                <div class="kpi-label">Produção hoje</div>
-                <div class="kpi-value">1.842 un.</div>
-                <div class="kpi-trend up">↑ 8% vs. média</div>
-              </div>
-              <div class="kpi">
-                <div class="kpi-label">Eficiência (OEE)</div>
-                <div class="kpi-value">87%</div>
-                <div class="kpi-trend up">↑ 4 pts este mês</div>
-              </div>
-              <div class="kpi">
-                <div class="kpi-label">Tempo de paragem</div>
-                <div class="kpi-value">22 min</div>
-                <div class="kpi-trend down">↓ 35% vs. mês anterior</div>
-              </div>
-            </div>
-            <div class="chart-wrap">
-              <div class="chart-title">Produção semanal por linha</div>
-              <div class="bar-chart">
-                <div class="bar-col"><div class="bar" style="--h:55%"></div><span>Seg</span></div>
-                <div class="bar-col"><div class="bar" style="--h:68%"></div><span>Ter</span></div>
-                <div class="bar-col"><div class="bar" style="--h:74%"></div><span>Qua</span></div>
-                <div class="bar-col"><div class="bar" style="--h:60%"></div><span>Qui</span></div>
-                <div class="bar-col"><div class="bar" style="--h:88%"></div><span>Sex</span></div>
-                <div class="bar-col"><div class="bar" style="--h:40%"></div><span>Sáb</span></div>
-              </div>
-            </div>
-            <div class="chart-wrap">
-              <div class="chart-title">Evolução do desempenho geral</div>
-              <svg class="line-chart" viewBox="0 0 300 80" preserveAspectRatio="none">
-                <polyline class="line-chart-path" points="0,60 50,50 100,55 150,35 200,30 250,15 300,10" fill="none"/>
-                <polyline class="line-chart-area" points="0,60 50,50 100,55 150,35 200,30 250,15 300,10 300,80 0,80" fill="url(#gradLine)"/>
-                <defs>
-                  <linearGradient id="gradLine" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#ff5c1a" stop-opacity="0.35"/>
-                    <stop offset="100%" stop-color="#ff5c1a" stop-opacity="0"/>
-                  </linearGradient>
-                </defs>
-              </svg>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="demo-text reveal">
-        <div class="section-tag" data-i18n="demo2.tag">Caso real · Indústria &amp; Logística</div>
-        <h2 data-i18n="demo2.title">Visibilidade total da produção, do início ao fim.</h2>
-        <p data-i18n="demo2.text">
-          Sistema de gestão de produção pensado para fábricas, armazéns e empresas
-          de logística: controlo de stock de matérias-primas, registo de entradas e
-          saídas de veículos e equipamentos, e dashboards de desempenho para
-          identificar onde otimizar o processo — do armazém à expedição.
-        </p>
-        <div class="feature-list">
-          <div class="feature-item">
-            <div class="feature-dot"></div>
-            <div>
-              <h4 data-i18n="demo2.f1.title">Controlo de stock de produção</h4>
-              <p data-i18n="demo2.f1.text">Matérias-primas e componentes monitorizados em tempo real, com alertas automáticos de reposição.</p>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-dot"></div>
-            <div>
-              <h4 data-i18n="demo2.f2.title">Entrada e saída de veículos e equipamentos</h4>
-              <p data-i18n="demo2.f2.text">Registo automático de cada movimento — camiões, empilhadoras, geradores — com hora, responsável e destino.</p>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-dot"></div>
-            <div>
-              <h4 data-i18n="demo2.f3.title">Gráficos de desempenho (OEE)</h4>
-              <p data-i18n="demo2.f3.text">Produção, eficiência e tempos de paragem visualizados por linha, turno ou semana.</p>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-dot"></div>
-            <div>
-              <h4 data-i18n="demo2.f4.title">Visão ponta a ponta</h4>
-              <p data-i18n="demo2.f4.text">Do recebimento de matéria-prima à expedição do produto final — tudo numa só plataforma de gestão.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
+    <div class="sec-h" style="text-align:center;margin-top:8px">
+      <span class="w" data-i18n="ct.h1">VAMOS</span>
+      <span class="y" data-i18n="ct.h2">FALAR.</span>
     </div>
+
+    <p class="contact-desc" data-i18n-html="ct.desc">
+      Partilhe o desafio que enfrenta. Em <strong>48 horas</strong> respondemos com uma análise inicial sem compromisso.
+    </p>
+
+    <div class="contact-channels">
+      <a href="mailto:comercial@ascendixeng.pt" class="channel">
+        <div class="channel-left">
+          <div class="channel-icon">✉</div>
+          <div>
+            <div class="channel-lbl" data-i18n="ct.email-lbl">Email</div>
+            <div class="channel-val">comercial@ascendixeng.pt</div>
+          </div>
+        </div>
+        <div class="channel-arrow" data-i18n="ct.email-arrow">ESCREVER →</div>
+      </a>
+      <a href="tel:+351936334424" class="channel">
+        <div class="channel-left">
+          <div class="channel-icon">☎</div>
+          <div>
+            <div class="channel-lbl" data-i18n="ct.phone-lbl">Telefone / WhatsApp</div>
+            <div class="channel-val">+351 936 334 424</div>
+          </div>
+        </div>
+        <div class="channel-arrow" data-i18n="ct.phone-arrow">LIGAR →</div>
+      </a>
+    </div>
+
   </div>
 </section>
 
-<!-- ============ PROCESSO ============ -->
-<section class="section" id="processo">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <div class="section-tag" data-i18n="process.tag">Como trabalhamos</div>
-      <h2 data-i18n="process.title">Do primeiro contacto ao sistema em produção.</h2>
-    </div>
-    <div class="process-list reveal-stagger">
-      <div class="process-row">
-        <div class="process-step">01</div>
-        <h3 data-i18n="process.p1.title">Conversa inicial</h3>
-        <p data-i18n="process.p1.text">Entendemos o seu negócio, o problema a resolver e os objetivos — sem jargão técnico desnecessário.</p>
-      </div>
-      <div class="process-row">
-        <div class="process-step">02</div>
-        <h3 data-i18n="process.p2.title">Proposta &amp; desenho</h3>
-        <p data-i18n="process.p2.text">Definimos o âmbito, prazos e protótipo visual antes de escrever uma única linha de código.</p>
-      </div>
-      <div class="process-row">
-        <div class="process-step">03</div>
-        <h3 data-i18n="process.p3.title">Desenvolvimento</h3>
-        <p data-i18n="process.p3.text">Construção iterativa, com demonstrações regulares para ir ajustando ao que realmente precisa.</p>
-      </div>
-      <div class="process-row">
-        <div class="process-step">04</div>
-        <h3 data-i18n="process.p4.title">Lançamento &amp; suporte</h3>
-        <p data-i18n="process.p4.text">Colocamos em produção e ficamos disponíveis para evoluções, manutenção e novas funcionalidades.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ DEMOS ANIMADAS ============ -->
-<section class="section" id="videos" style="border-top:1px solid var(--line);">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <div class="section-tag" data-i18n="videos.tag">Como funciona</div>
-      <h2 data-i18n="videos.title">Veja o sistema em ação.</h2>
-      <p data-i18n="videos.text">Animações que ilustram o funcionamento real do sistema de gestão de restauração — do tablet na mesa ao painel de gestão.</p>
-    </div>
-    <div class="video-grid reveal-stagger">
-
-      <!-- DEMO 1: Cardápio tablet -->
-      <div class="video-card">
-        <div class="anim-screen anim-menu">
-          <div class="anim-topbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="anim-title">Mesa 7 · Cardápio</span></div>
-          <div class="anim-menu-items">
-            <div class="anim-menu-item" style="--d:0s">
-              <div class="anim-thumb"></div>
-              <div><div class="anim-line w70"></div><div class="anim-line w40 dim"></div></div>
-              <div class="anim-price">€14,90</div>
-            </div>
-            <div class="anim-menu-item" style="--d:.4s">
-              <div class="anim-thumb"></div>
-              <div><div class="anim-line w60"></div><div class="anim-line w35 dim"></div></div>
-              <div class="anim-price">€16,50</div>
-            </div>
-            <div class="anim-menu-item" style="--d:.8s">
-              <div class="anim-thumb"></div>
-              <div><div class="anim-line w50"></div><div class="anim-line w30 dim"></div></div>
-              <div class="anim-price">€6,50</div>
-            </div>
-          </div>
-          <div class="anim-cart">
-            <span>3 itens selecionados</span>
-            <span class="anim-cart-btn">Enviar pedido →</span>
-          </div>
-        </div>
-        <div class="video-caption">
-          <h4 data-i18n="videos.v1.title">Cardápio digital na mesa</h4>
-          <p data-i18n="videos.v1.text">O cliente escolhe e envia o pedido direto do tablet.</p>
-        </div>
-      </div>
-
-      <!-- DEMO 2: Pedidos em tempo real -->
-      <div class="video-card">
-        <div class="anim-screen anim-orders">
-          <div class="anim-topbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="anim-title">Cozinha · Pedidos</span></div>
-          <div class="anim-orders-list">
-            <div class="anim-order" style="--d:0s">
-              <span class="anim-table">Mesa 3</span>
-              <span class="anim-order-text">2x Risotto · 1x Vinho</span>
-              <span class="anim-badge new">Novo</span>
-            </div>
-            <div class="anim-order" style="--d:1.2s">
-              <span class="anim-table">Mesa 7</span>
-              <span class="anim-order-text">1x Bacalhau · 1x Bruschetta</span>
-              <span class="anim-badge prep">Em prep.</span>
-            </div>
-            <div class="anim-order" style="--d:2.4s">
-              <span class="anim-table">Mesa 1</span>
-              <span class="anim-order-text">3x Pudim · 2x Água</span>
-              <span class="anim-badge ready">Pronto</span>
-            </div>
-            <div class="anim-order" style="--d:3.6s">
-              <span class="anim-table">Mesa 12</span>
-              <span class="anim-order-text">1x Bacalhau · 2x Vinho</span>
-              <span class="anim-badge new">Novo</span>
-            </div>
-          </div>
-        </div>
-        <div class="video-caption">
-          <h4 data-i18n="videos.v2.title">Pedidos em tempo real</h4>
-          <p data-i18n="videos.v2.text">A cozinha vê cada pedido assim que é enviado.</p>
-        </div>
-      </div>
-
-      <!-- DEMO 3: Gestão & stock -->
-      <div class="video-card">
-        <div class="anim-screen anim-stock">
-          <div class="anim-topbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="anim-title">Gestão · Visão geral</span></div>
-          <div class="anim-kpis">
-            <div class="anim-kpi">
-              <span class="anim-kpi-label">Faturação hoje</span>
-              <span class="anim-kpi-value counter" data-target="1284" data-prefix="€">€0</span>
-            </div>
-            <div class="anim-kpi">
-              <span class="anim-kpi-label">Mesas ativas</span>
-              <span class="anim-kpi-value counter" data-target="9">0</span>
-              <span class="anim-kpi-sub">/ 14</span>
-            </div>
-          </div>
-          <div class="anim-stock-rows">
-            <div class="anim-stock-row">
-              <span>Bacalhau</span>
-              <div class="anim-stock-bar"><div class="anim-stock-fill low" style="--w:20%"></div></div>
-              <span class="anim-pill low">Repor</span>
-            </div>
-            <div class="anim-stock-row">
-              <span>Arroz Carolino</span>
-              <div class="anim-stock-bar"><div class="anim-stock-fill ok" style="--w:80%"></div></div>
-              <span class="anim-pill ok">Normal</span>
-            </div>
-            <div class="anim-stock-row">
-              <span>Cogumelos</span>
-              <div class="anim-stock-bar"><div class="anim-stock-fill low" style="--w:15%"></div></div>
-              <span class="anim-pill low">Repor</span>
-            </div>
-          </div>
-        </div>
-        <div class="video-caption">
-          <h4 data-i18n="videos.v3.title">Gestão &amp; stock</h4>
-          <p data-i18n="videos.v3.text">Faturação, mesas e inventário num único painel — atualizado em tempo real.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ============ CONTACTO ============ -->
-<section class="contact section" id="contacto">
-  <div class="wrap">
-    <div class="contact-grid">
-      <div class="contact-info reveal">
-        <div class="section-tag" data-i18n="contact.tag">Vamos falar</div>
-        <h2 data-i18n="contact.title">Conte-nos o que precisa de construir.</h2>
-        <p data-i18n="contact.text">Fale diretamente com a equipa Ascendix — sem formulários nem chatbots. Contacte-nos por email ou telefone/WhatsApp.</p>
-        <div class="contact-channels">
-          <a class="channel" href="mailto:comercial@ascendixeng.pt">
-            <div class="channel-icon">@</div>
-            <div>
-              <h4 data-i18n="contact.email">Email</h4>
-              <span>comercial@ascendixeng.pt</span>
-            </div>
-          </a>
-          <a class="channel" href="tel:+351936334424">
-            <div class="channel-icon">☏</div>
-            <div>
-              <h4 data-i18n="contact.phone">Telefone / WhatsApp</h4>
-              <span>+351 936 334 424</span>
-            </div>
-          </a>
-          <div class="channel">
-            <div class="channel-icon">⏱</div>
-            <div>
-              <h4 data-i18n="contact.hours">Horário</h4>
-              <span data-i18n="contact.hoursValue">Segunda a sexta, 9h–18h</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ FOOTER ============ -->
+<!-- FOOTER -->
 <footer>
-  <div class="wrap footer-grid">
-    <div class="footer-logo">
-      <img class="logo-icon" src="logo-mark.png" alt="">
-      <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:0.05em;">ASCEND<em style="color:var(--orange);font-style:normal;">I</em>X <span style="color:var(--grey);font-weight:400;letter-spacing:normal;" data-i18n="footer.tagline">· Engenharia de Software</span></span>
-    </div>
-    <div class="footer-links">
-      <a href="#servicos" data-i18n="nav.services">Serviços</a>
-      <a href="#demo" data-i18n="nav.system">Sistema</a>
-      <a href="#contacto" data-i18n="footer.contact">Contacto</a>
-    </div>
-  </div>
-  <div class="wrap" style="margin-top:24px;">
-    <div class="copyright" data-i18n="footer.copyright">© 2026 Ascendix. Todos os direitos reservados.</div>
-  </div>
+  <div class="footer-copy" data-i18n="footer.copy">© 2025 ASCENDIX ENGENHARIA · SOFTWARE, LDA. — TODOS OS DIREITOS RESERVADOS.</div>
+  <div class="footer-right">FEITO EM PORTUGAL 🇵🇹</div>
 </footer>
 
 <script>
-// Scroll progress bar
-const progress = document.getElementById('scrollProgress');
-window.addEventListener('scroll', ()=>{
-  const h = document.documentElement;
-  const pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
-  progress.style.width = pct + '%';
-  document.querySelector('header').classList.toggle('scrolled', h.scrollTop > 40);
-});
-
-// Cursor glow follows mouse in hero
-const glow = document.getElementById('cursorGlow');
-document.querySelector('.hero').addEventListener('mousemove', (e)=>{
-  glow.style.left = e.clientX + 'px';
-  glow.style.top = e.clientY + 'px';
-});
-
-// Scroll reveal via IntersectionObserver
-const revealObserver = new IntersectionObserver((entries)=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      entry.target.classList.add('in');
-      revealObserver.unobserve(entry.target);
-    }
-  });
-}, {threshold:0.15, rootMargin:'0px 0px -60px 0px'});
-
-document.querySelectorAll('.reveal, .reveal-stagger').forEach(el=>{
-  revealObserver.observe(el);
-});
-
-// Custom tech cursor
-const cursor = document.getElementById('techCursor');
-const cursorDot = document.getElementById('techCursorDot');
-window.addEventListener('mousemove', (e)=>{
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top = e.clientY + 'px';
-  cursorDot.style.left = e.clientX + 'px';
-  cursorDot.style.top = e.clientY + 'px';
-});
-document.querySelectorAll('a, button, .menu-item, .service-card, .channel, .demo-tab, input, select, textarea').forEach(el=>{
-  el.addEventListener('mouseenter', ()=>cursor.classList.add('hover'));
-  el.addEventListener('mouseleave', ()=>cursor.classList.remove('hover'));
-});
-
-// Terminal typing loop
-const terminalLines = [
-  'a iniciar sistema_',
-  'ascendix.engenharia --build',
-  'sites · apps · automação',
-  'pronto para o seu projeto_'
-];
-const terminalEl = document.getElementById('terminalText');
-let tLine = 0, tChar = 0, tDeleting = false;
-function typeTerminal(){
-  const current = terminalLines[tLine];
-  if(!tDeleting){
-    tChar++;
-    terminalEl.textContent = current.slice(0, tChar);
-    if(tChar === current.length){
-      tDeleting = true;
-      setTimeout(typeTerminal, 1800);
-      return;
-    }
-  } else {
-    tChar--;
-    terminalEl.textContent = current.slice(0, tChar);
-    if(tChar === 0){
-      tDeleting = false;
-      tLine = (tLine + 1) % terminalLines.length;
-    }
-  }
-  setTimeout(typeTerminal, tDeleting ? 30 : 55);
-}
-setTimeout(typeTerminal, 600);
-
-// Animated stat counter
-const statEls = document.querySelectorAll('.stat-num[data-target]');
-const statObserver = new IntersectionObserver((entries)=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      const el = entry.target;
-      const target = parseInt(el.dataset.target);
-      const suffix = el.dataset.suffix || '';
-      let cur = 0;
-      const step = Math.max(1, Math.ceil(target/40));
-      const tick = ()=>{
-        cur += step;
-        if(cur >= target){ cur = target; }
-        el.textContent = cur + suffix;
-        if(cur < target) requestAnimationFrame(tick);
-      };
-      tick();
-      statObserver.unobserve(el);
-    }
-  });
-}, {threshold:0.5});
-statEls.forEach(el=>statObserver.observe(el));
-
-// Animated demo screens (counters + loop restart)
-function runStockCounters(screen){
-  screen.querySelectorAll('.counter').forEach(el=>{
-    const target = parseInt(el.dataset.target);
-    const prefix = el.dataset.prefix || '';
-    let cur = 0;
-    const step = Math.max(1, Math.ceil(target/30));
-    const tick = ()=>{
-      cur += step;
-      if(cur >= target) cur = target;
-      el.textContent = prefix + cur.toLocaleString('pt-PT');
-      if(cur < target) requestAnimationFrame(tick);
-    };
-    tick();
-  });
-}
-
-function restartAnimations(card){
-  // clone & replace to restart CSS animations
-  const screen = card.querySelector('.anim-screen');
-  const clone = screen.cloneNode(true);
-  screen.parentNode.replaceChild(clone, screen);
-  if(clone.classList.contains('anim-stock')){
-    runStockCounters(clone);
-  }
-  return clone;
-}
-
-document.querySelectorAll('.video-card').forEach(card=>{
-  let started = false;
-  let interval;
-  const obs = new IntersectionObserver((entries)=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting && !started){
-        started = true;
-        const screen = card.querySelector('.anim-screen');
-        if(screen.classList.contains('anim-stock')) runStockCounters(screen);
-        // Loop the whole sequence every 6s
-        interval = setInterval(()=>{
-          const current = card.querySelector('.anim-screen');
-          requestAnimationFrame(()=>restartAnimations(card));
-        }, 6000);
-      }
-    });
-  }, {threshold:0.3});
-  obs.observe(card);
-});
-
-// Tilt on service cards
-document.querySelectorAll('.service-card').forEach(card=>{
-  card.addEventListener('mousemove', (e)=>{
-    const rect = card.getBoundingClientRect();
-    const x = (e.clientX - rect.left)/rect.width - 0.5;
-    const y = (e.clientY - rect.top)/rect.height - 0.5;
-    card.style.transform = `perspective(600px) rotateY(${x*8}deg) rotateX(${-y*8}deg) translateY(-4px)`;
-  });
-  card.addEventListener('mouseleave', ()=>{
-    card.style.transform = '';
-  });
-});
-
-document.querySelectorAll('.demo-panel').forEach(panel=>{
-  const tabs = panel.querySelectorAll('.demo-tab');
-  const contents = panel.querySelectorAll('.tab-content');
-  tabs.forEach(tab=>{
-    tab.addEventListener('click', ()=>{
-      tabs.forEach(t=>t.classList.remove('active'));
-      contents.forEach(c=>c.classList.remove('active'));
-      tab.classList.add('active');
-      panel.querySelector('#tab-'+tab.dataset.tab).classList.add('active');
-    });
-  });
-});
-
-// Cardápio cart logic
-let cart = {count:0, total:0};
-function toggleSelect(el, price){
-  const selected = el.classList.toggle('selected');
-  if(selected){
-    el.style.borderColor = 'var(--orange)';
-    el.style.background = 'var(--orange-dim)';
-    cart.count++; cart.total += price;
-  } else {
-    el.style.borderColor = '';
-    el.style.background = '';
-    cart.count--; cart.total -= price;
-  }
-  document.getElementById('item-count').textContent = cart.count;
-  document.getElementById('cart-total').textContent = cart.total.toFixed(2).replace('.', ',');
-}
-
-// (form removido — contacto agora é direto por email/telefone)
-
-// ===== I18N =====
-const translations = {
+/* ── TRANSLATIONS ── */
+const T = {
+  pt: {
+    'logo.sub':'Engenharia · Software',
+    'nav.sobre':'Sobre','nav.met':'Metodologia','nav.srv':'Serviços','nav.faq':'FAQ','nav.contact':'Contacto','nav.proposta':'Pedir Proposta',
+    'hero.tag':'ENGENHARIA DE SOFTWARE · SISTEMAS CRÍTICOS · SLA CONTRATUAL · PORTUGAL',
+    'hero.l1':'ENGENHARIA DE SOFTWARE','hero.l2':'PARA OPERAÇÕES EXIGENTES.','hero.l3':'SISTEMAS QUE NÃO PARAM.',
+    'hero.desc':'A <strong>Ascendix Engenharia</strong> projeta, desenvolve e opera plataformas de missão crítica. Código limpo, arquitetura sólida, entregas previsíveis — sob SLA, com suporte e conformidade RGPD.',
+    'hero.btn1':'Os Nossos Serviços →','hero.btn2':'Pedir Proposta','hero.available':'Disponível para novos projetos',
+    'stat.uptime':'Uptime em Produção','stat.tx':'Transações Processadas','stat.clients':'Clientes Ativos','stat.routines':'Rotinas Automatizadas',
+    'sobre.lbl':'SOBRE.ASCENDIX','sobre.h1':'SOFTWARE DE','sobre.h2':'MISSÃO CRÍTICA.',
+    'sobre.p1':'A Ascendix nasceu em Dezembro de 2025 com um princípio simples: <strong>código que funciona em produção, entregue dentro do prazo e do orçamento acordado.</strong>',
+    'sobre.p2':'Trabalhamos com organizações que precisam de fiabilidade, não de promessas. Cada projeto combina engenharia rigorosa, documentação completa e suporte continuado.',
+    'kpi.years':'Anos de Engenharia','kpi.code':'Código Próprio','kpi.monitor':'Monitorização',
+    'card1.t':'Software como Infra-estrutura','card1.d':'Construímos plataformas que sustentam a operação 24/7. Cada release passa por revisão de arquitetura, testes automatizados e validação em pré-produção.',
+    'card2.t':'Conformidade e Segurança','card2.d':'RGPD, encriptação em trânsito e em repouso, gestão de acessos por perfil e logs de auditoria imutáveis. Sem atalhos.',
+    'card3.t':'Engenharia Rastreável','card3.d':'Git, code review obrigatório, ambientes isolados (dev / stage / prod) e pipelines CI/CD. Cada linha de código é auditável.',
+    'card4.t':'Suporte Contratualizado','card4.d':'SLA claro, tempos de resposta garantidos, relatórios mensais e plano de continuidade documentado e testado.',
+    'met.lbl':'METODOLOGIA.ENTREGA','met.h1':'MÉTODO ESTRUTURADO.','met.h2':'ENTREGAS PREVISÍVEIS.',
+    'met.desc':'Cinco fases com entregáveis documentados em cada uma. Sem caixas pretas, sem surpresas no orçamento. Iteramos em ciclos curtos para que veja valor desde a segunda semana.',
+    's1.time':'1–2<br>Semanas','s1.title':'Descoberta','s1.l1':'Workshops com operação e gestão','s1.l2':'Mapeamento de processos (AS-IS)','s1.l3':'Identificação de KPIs e fricções','s1.l4':'Documento de visão assinado',
+    's2.time':'1–3<br>Semanas','s2.title':'Arquitetura','s2.l1':'Modelo de dados e fluxos de eventos','s2.l2':'Decisões tecnológicas (ADRs)','s2.l3':'Plano de integrações','s2.l4':'Estimativa cloud e custos',
+    's3.time':'Sprints de<br>2 Semanas','s3.title':'Desenvolvimento','s3.l1':'Entregas incrementais validadas','s3.l2':'Code review e testes automáticos','s3.l3':'Demo quinzenal ao cliente','s3.l4':'Documentação técnica contínua',
+    's4.time':'2–4<br>Semanas','s4.title':'Go-Live','s4.l1':'Migração e ensaios de carga','s4.l2':'Formação de utilizadores','s4.l3':'Plano de rollback documentado','s4.l4':'Acompanhamento nos primeiros dias',
+    's5.time':'Contínuo','s5.title':'Operação','s5.l1':'Monitorização 24/7 e alertas','s5.l2':'SLA e relatórios mensais','s5.l3':'Roadmap de evolução','s5.l4':'Auditorias de segurança',
+    'srv.lbl':'SERVIÇOS.ENTREGÁVEIS','srv.h1':'O QUE FAZEMOS,','srv.h2':'SEM RODEIOS.',
+    'srv.desc':'Engenharia de software do princípio ao fim — arquitetura, código, integrações, cloud, segurança e suporte. Sem subcontratação, sem surpresas.',
+    'r1.t':'Desenvolvimento à Medida','r1.tag':'Web · Mobile · API · Backend','r1.d':'Aplicações web e mobile construídas sobre os requisitos reais do negócio. Frontend reativo, backend robusto, APIs bem documentadas e testes automatizados em cada sprint.',
+    'r2.t':'Arquitetura de Sistemas','r2.tag':'Design · ADRs · Escalabilidade','r2.d':'Definição da estrutura técnica antes de escrever a primeira linha — modelo de dados, fluxos de eventos, decisões documentadas e estimativa de custos cloud.',
+    'r3.t':'Integrações e APIs','r3.tag':'REST · GraphQL · Webhooks · ERP','r3.d':'Conexão entre sistemas — ERPs, contabilidades, meios de pagamento e sistemas legados. Documentação OpenAPI incluída e testes de contrato em cada endpoint.',
+    'r4.t':'Cloud e DevOps','r4.tag':'AWS · Azure · GCP · CI/CD · IaC','r4.d':'Infraestrutura como código, pipelines CI/CD, ambientes isolados por projeto e monitorização com alertas proactivos. Cada deploy é rastreável e reversível.',
+    'r5.t':'Segurança e Conformidade','r5.tag':'RGPD · OAuth 2.0 · Auditoria · RBAC','r5.d':'Autenticação robusta, gestão de acessos por perfil, encriptação AES-256, logs imutáveis e DPA assinado. Conformidade RGPD de ponta a ponta.',
+    'r6.t':'Suporte e Operação','r6.tag':'SLA · 24/7 · Relatórios · Roadmap','r6.d':'Contratos de suporte com tempos de resposta garantidos, monitorização contínua, relatórios mensais e evolução do produto sob roadmap co-criado com o cliente.',
+    'faq.lbl':'PERGUNTAS.FREQUENTES','faq.h1':'PERGUNTAS','faq.h2':'FREQUENTES.',
+    'faq.note':'Não encontrou o que procurava? Escreva para <a href="mailto:comercial@ascendixeng.pt">comercial@ascendixeng.pt</a>.',
+    'q1.q':'Com que tipo de empresas trabalham?','q1.a':'Trabalhamos com PMEs e médias empresas que precisam de software feito à medida — em qualquer setor. O foco é em operações onde a fiabilidade é crítica e as soluções de prateleira não chegam.',
+    'q2.q':'O software é desenvolvido à medida ou é um produto fechado?','q2.a':'Totalmente à medida. Não há produto de prateleira nem licenças recorrentes forçadas. Entregamos código que fica na sua organização — versionado, documentado e com conhecimento transferido.',
+    'q3.q':'Quanto tempo demora um projeto típico?','q3.a':'Entre 8 e 20 semanas dependendo da complexidade. Os primeiros módulos funcionais chegam na terceira semana, com demonstrações quinzenais ao cliente.',
+    'q4.q':'Como funciona o suporte depois do Go-Live?','q4.a':'Todos os projetos incluem SLA definido com tempos de resposta garantidos, monitorização proactiva e relatórios mensais. Não desaparecemos depois da entrega.',
+    'q5.q':'Os dados cumprem o RGPD?','q5.a':'Sim. Infraestrutura europeia, encriptação AES-256, RBAC, logs de auditoria imutáveis e DPA assinado. Conformidade RGPD é um requisito de projeto, não um extra.',
+    'q6.q':'Conseguem integrar com os nossos sistemas atuais?','q6.a':'Sim. A fase de Arquitetura inclui o mapeamento completo de todas as integrações. Temos experiência com SAP, Primavera, PHC, Sage e a maioria dos sistemas portugueses via APIs ou SAF-T.',
+    'q7.q':'Quanto custa?','q7.a':'Após a fase de Descoberta apresentamos uma proposta com preço fixo por fase — sem estimativas vagas. A Descoberta é remunerada e entrega documentos concretos, independentemente de o projeto avançar.',
+    'ct.lbl':'CONTACTO.DIRETO','ct.h1':'VAMOS','ct.h2':'FALAR.',
+    'ct.desc':'Partilhe o desafio que enfrenta. Em <strong>48 horas</strong> respondemos com uma análise inicial sem compromisso.',
+    'ct.email-lbl':'Email','ct.email-arrow':'ESCREVER →','ct.phone-lbl':'Telefone / WhatsApp','ct.phone-arrow':'LIGAR →',
+    'footer.copy':'© 2025 ASCENDIX ENGENHARIA · SOFTWARE, LDA. — TODOS OS DIREITOS RESERVADOS.'
+  },
   en: {
-    "nav.services": "Services",
-    "nav.system": "System",
-    "nav.production": "Production",
-    "nav.videos": "Videos",
-    "nav.process": "Process",
-    "nav.cta": "Talk to our team",
-    "hero.eyebrow": "Software Engineering",
-    "hero.title": 'Software engineering<br>that <span class="accent">accelerates</span> your business.',
-    "hero.lead": "We build websites, applications and automation systems tailored to your needs. From idea to production — real engineering, your own identity.",
-    "hero.cta1": "Talk to our team",
-    "hero.cta2": "Try the system",
-    "hero.stat1": "Custom-built solutions",
-    "hero.stat2num": "Web · App · Automation",
-    "hero.stat2": "Areas of expertise",
-    "hero.stat3": "Local team, direct support",
-    "services.tag": "What we do",
-    "services.title": "Three areas. One technical partner.",
-    "services.subtitle": "We work from front-end to back-office — so technology stops being a problem and becomes the engine of your business.",
-    "services.s1.num": "01 · Websites",
-    "services.s1.title": "Corporate sites &amp; online stores",
-    "services.s1.text": "Modern, fast and optimized design — built to convert visitors into customers, with simple content management.",
-    "services.s2.num": "02 · Applications",
-    "services.s2.title": "Web &amp; mobile applications",
-    "services.s2.text": "Internal platforms, apps for customers or staff, integrated with the systems you already use day to day.",
-    "services.s3.num": "03 · Automation",
-    "services.s3.title": "Process automation",
-    "services.s3.text": "We eliminate repetitive tasks: stock, orders, invoicing and reporting running on their own, in real time.",
-    "services.more": "→ learn more",
-    "demo1.tag": "Real case · Restaurant",
-    "demo1.title": "Your restaurant, fully digital.",
-    "demo1.text": "A complete management system for restaurants: digital menu via tablet at the table, real-time order management and stock control — all in one platform. See an interactive demo below.",
-    "demo1.tab1": "Menu (Tablet)",
-    "demo1.tab2": "Orders",
-    "demo1.tab3": "Management &amp; Stock",
-    "demo1.f1.title": "Digital menu at the table",
-    "demo1.f1.text": "Customers browse, customize and send their order directly from the tablet — no waiting for staff.",
-    "demo1.f2.title": "Real-time order management",
-    "demo1.f2.text": "The kitchen receives orders instantly, organized by table and priority.",
-    "demo1.f3.title": "Automatic stock control",
-    "demo1.f3.text": "Every sale updates inventory. Automatic alerts when an ingredient is running low.",
-    "demo1.f4.title": "Full management overview",
-    "demo1.f4.text": "Billing, active tables and performance — in a single dashboard, accessible from any device.",
-    "demo2.tag": "Real case · Industry &amp; Logistics",
-    "demo2.title": "Full visibility of production, start to finish.",
-    "demo2.text": "A production management system for factories, warehouses and logistics companies: raw material stock control, vehicle and equipment entry/exit logs, and performance dashboards to identify where to optimize the process — from warehouse to shipping.",
-    "demo2.tab1": "Production Stock",
-    "demo2.tab2": "Entry/Exit",
-    "demo2.tab3": "Performance",
-    "demo2.f1.title": "Production stock control",
-    "demo2.f1.text": "Raw materials and components monitored in real time, with automatic restocking alerts.",
-    "demo2.f2.title": "Vehicle &amp; equipment entry/exit",
-    "demo2.f2.text": "Automatic logging of every movement — trucks, forklifts, generators — with time, person responsible and destination.",
-    "demo2.f3.title": "Performance charts (OEE)",
-    "demo2.f3.text": "Production, efficiency and downtime visualized by line, shift or week.",
-    "demo2.f4.title": "End-to-end visibility",
-    "demo2.f4.text": "From raw material intake to final product shipping — all in a single management platform.",
-    "process.tag": "How we work",
-    "process.title": "From first contact to a live system.",
-    "process.p1.title": "Initial conversation",
-    "process.p1.text": "We understand your business, the problem to solve, and your goals — without unnecessary jargon.",
-    "process.p2.title": "Proposal &amp; design",
-    "process.p2.text": "We define scope, timelines and visual prototype before writing a single line of code.",
-    "process.p3.title": "Development",
-    "process.p3.text": "Iterative development, with regular demos so we can adjust to what you actually need.",
-    "process.p4.title": "Launch &amp; support",
-    "process.p4.text": "We go live and stay available for upgrades, maintenance and new features.",
-    "videos.tag": "How it works",
-    "videos.title": "See the system in action.",
-    "videos.text": "Animations illustrating how the restaurant management system works in real life — from the tablet at the table to the management dashboard.",
-    "videos.v1.title": "Digital menu at the table",
-    "videos.v1.text": "The customer picks and sends the order directly from the tablet.",
-    "videos.v2.title": "Real-time orders",
-    "videos.v2.text": "The kitchen sees every order as soon as it's sent.",
-    "videos.v3.title": "Management &amp; stock",
-    "videos.v3.text": "Billing, tables and inventory in a single dashboard — updated in real time.",
-    "contact.tag": "Let's talk",
-    "contact.title": "Tell us what you need to build.",
-    "contact.text": "Talk directly to the Ascendix team — no forms or chatbots. Reach us by email or phone/WhatsApp.",
-    "contact.email": "Email",
-    "contact.phone": "Phone / WhatsApp",
-    "contact.hours": "Hours",
-    "contact.hoursValue": "Monday to Friday, 9am–6pm",
-    "contact.form.name": "Name",
-    "contact.form.namePh": "Your name",
-    "contact.form.company": "Company",
-    "contact.form.companyPh": "Business name",
-    "contact.form.email": "Email",
-    "contact.form.phone": "Phone",
-    "contact.form.service": "What are you looking for?",
-    "contact.form.opt1": "Website",
-    "contact.form.opt2": "Web/mobile app",
-    "contact.form.opt3": "Process automation",
-    "contact.form.opt4": "Restaurant management system",
-    "contact.form.opt5": "Other",
-    "contact.form.message": "Message",
-    "contact.form.messagePh": "Tell us a bit about your project...",
-    "contact.form.submit": "Send message",
-    "contact.form.note": "We usually reply within 1 business day.",
-    "footer.tagline": "· Software Engineering",
-    "footer.contact": "Contact",
-    "footer.copyright": "© 2026 Ascendix. All rights reserved."
+    'logo.sub':'Engineering · Software',
+    'nav.sobre':'About','nav.met':'Methodology','nav.srv':'Services','nav.faq':'FAQ','nav.contact':'Contact','nav.proposta':'Request Proposal',
+    'hero.tag':'SOFTWARE ENGINEERING · CRITICAL SYSTEMS · CONTRACTUAL SLA · PORTUGAL',
+    'hero.l1':'SOFTWARE ENGINEERING','hero.l2':'FOR DEMANDING OPERATIONS.','hero.l3':'SYSTEMS THAT DON\'T STOP.',
+    'hero.desc':'<strong>Ascendix Engineering</strong> designs, builds and operates mission-critical platforms. Clean code, solid architecture, predictable delivery — under SLA, with support and GDPR compliance.',
+    'hero.btn1':'Our Services →','hero.btn2':'Request Proposal','hero.available':'Available for new projects',
+    'stat.uptime':'Production Uptime','stat.tx':'Processed Transactions','stat.clients':'Active Clients','stat.routines':'Automated Routines',
+    'sobre.lbl':'ABOUT.ASCENDIX','sobre.h1':'MISSION','sobre.h2':'CRITICAL SOFTWARE.',
+    'sobre.p1':'Ascendix was founded in December 2025 with a simple principle: <strong>code that works in production, delivered on time and within the agreed budget.</strong>',
+    'sobre.p2':'We work with organisations that need reliability, not promises. Every project combines rigorous engineering, complete documentation and ongoing support.',
+    'kpi.years':'Years of Engineering','kpi.code':'Own Codebase','kpi.monitor':'Monitoring',
+    'card1.t':'Software as Infrastructure','card1.d':'We build platforms that sustain 24/7 operations. Every release goes through architecture review, automated testing and pre-production validation.',
+    'card2.t':'Compliance & Security','card2.d':'GDPR, encryption in transit and at rest, role-based access control and immutable audit logs. No shortcuts.',
+    'card3.t':'Traceable Engineering','card3.d':'Git, mandatory code review, isolated environments (dev / stage / prod) and CI/CD pipelines. Every line of code is auditable.',
+    'card4.t':'Contracted Support','card4.d':'Clear SLA, guaranteed response times, monthly reports and a documented and tested continuity plan.',
+    'met.lbl':'METHODOLOGY.DELIVERY','met.h1':'STRUCTURED METHOD.','met.h2':'PREDICTABLE DELIVERY.',
+    'met.desc':'Five phases with documented deliverables at each stage. No black boxes, no budget surprises. We iterate in short cycles so you see value from week two.',
+    's1.time':'1–2<br>Weeks','s1.title':'Discovery','s1.l1':'Workshops with operations & management','s1.l2':'Process mapping (AS-IS)','s1.l3':'KPI and friction identification','s1.l4':'Signed vision document',
+    's2.time':'1–3<br>Weeks','s2.title':'Architecture','s2.l1':'Data model and event flows','s2.l2':'Technology decisions (ADRs)','s2.l3':'Integration plan','s2.l4':'Cloud capacity and cost estimate',
+    's3.time':'2-week<br>Sprints','s3.title':'Development','s3.l1':'Validated incremental deliveries','s3.l2':'Code review and automated tests','s3.l3':'Fortnightly demo to client','s3.l4':'Continuous technical documentation',
+    's4.time':'2–4<br>Weeks','s4.title':'Go-Live','s4.l1':'Migration and load testing','s4.l2':'User training','s4.l3':'Documented rollback plan','s4.l4':'On-site support in the first days',
+    's5.time':'Ongoing','s5.title':'Operations','s5.l1':'24/7 monitoring and alerts','s5.l2':'SLA and monthly reports','s5.l3':'Evolution roadmap','s5.l4':'Security audits',
+    'srv.lbl':'SERVICES.DELIVERABLES','srv.h1':'WHAT WE DO,','srv.h2':'STRAIGHT TO THE POINT.',
+    'srv.desc':'End-to-end software engineering — architecture, code, integrations, cloud, security and support. No outsourcing, no surprises.',
+    'r1.t':'Custom Development','r1.tag':'Web · Mobile · API · Backend','r1.d':'Web and mobile applications built on real business requirements. Reactive frontend, robust backend, well-documented APIs and automated tests every sprint.',
+    'r2.t':'Systems Architecture','r2.tag':'Design · ADRs · Scalability','r2.d':'Defining the technical structure before writing the first line — data model, event flows, documented decisions and cloud cost estimates.',
+    'r3.t':'Integrations & APIs','r3.tag':'REST · GraphQL · Webhooks · ERP','r3.d':'Connecting systems — ERPs, accounting, payment gateways and legacy systems. OpenAPI documentation and contract tests on every endpoint.',
+    'r4.t':'Cloud & DevOps','r4.tag':'AWS · Azure · GCP · CI/CD · IaC','r4.d':'Infrastructure as code, CI/CD pipelines, isolated environments per project and monitoring with proactive alerts. Every deployment is traceable and reversible.',
+    'r5.t':'Security & Compliance','r5.tag':'GDPR · OAuth 2.0 · Audit · RBAC','r5.d':'Robust authentication, role-based access control, AES-256 encryption, immutable logs and signed DPA. GDPR compliance end-to-end.',
+    'r6.t':'Support & Operations','r6.tag':'SLA · 24/7 · Reports · Roadmap','r6.d':'Support contracts with guaranteed response times, continuous monitoring, monthly reports and product evolution under a co-created roadmap.',
+    'faq.lbl':'FREQUENTLY.ASKED','faq.h1':'FREQUENTLY','faq.h2':'ASKED.',
+    'faq.note':'Didn\'t find what you were looking for? Write to <a href="mailto:comercial@ascendixeng.pt">comercial@ascendixeng.pt</a>.',
+    'q1.q':'What kind of companies do you work with?','q1.a':'We work with SMEs and mid-sized companies that need custom-built software — in any sector. The focus is on operations where reliability is critical and off-the-shelf solutions fall short.',
+    'q2.q':'Is the software custom-built or a closed product?','q2.a':'Fully custom. No off-the-shelf product, no forced recurring licences. We deliver code that stays in your organisation — versioned, documented and with knowledge transferred.',
+    'q3.q':'How long does a typical project take?','q3.a':'Between 8 and 20 weeks depending on complexity. The first functional modules are ready in the third week, with fortnightly demos to the client.',
+    'q4.q':'How does support work after Go-Live?','q4.a':'All projects include a defined SLA with guaranteed response times, proactive monitoring and monthly operations reports. We don\'t disappear after delivery.',
+    'q5.q':'Is the data GDPR compliant?','q5.a':'Yes. European infrastructure, AES-256 encryption, RBAC, immutable audit logs and a signed DPA. GDPR compliance is a project requirement, not an add-on.',
+    'q6.q':'Can you integrate with our existing systems?','q6.a':'Yes. The Architecture phase includes a full mapping of all integrations. We have experience with SAP, Primavera, PHC, Sage and most Portuguese systems via APIs or SAF-T.',
+    'q7.q':'How much does it cost?','q7.a':'After the Discovery phase we present a fixed-price proposal per phase — no vague estimates. The Discovery itself is paid and delivers concrete documents, regardless of whether the project moves forward.',
+    'ct.lbl':'DIRECT.CONTACT','ct.h1':'LET\'S','ct.h2':'TALK.',
+    'ct.desc':'Share the challenge you\'re facing. Within <strong>48 hours</strong> we reply with an initial analysis and no commitment.',
+    'ct.email-lbl':'Email','ct.email-arrow':'WRITE →','ct.phone-lbl':'Phone / WhatsApp','ct.phone-arrow':'CALL →',
+    'footer.copy':'© 2025 ASCENDIX ENGINEERING · SOFTWARE, LDA. — ALL RIGHTS RESERVED.'
   }
 };
 
 let currentLang = 'pt';
-const originalContent = new Map();
-document.querySelectorAll('[data-i18n]').forEach(el=>{
-  originalContent.set(el, el.innerHTML);
-});
-const originalPlaceholders = new Map();
-document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
-  originalPlaceholders.set(el, el.getAttribute('placeholder'));
-});
 
-function setLanguage(lang){
+function setLang(lang) {
   currentLang = lang;
   document.documentElement.lang = lang;
-  document.querySelectorAll('.lang-btn').forEach(b=>{
-    b.classList.toggle('active', b.dataset.lang === lang);
-  });
-  document.querySelectorAll('[data-i18n]').forEach(el=>{
+
+  // Update button states
+  document.getElementById('btn-pt').classList.toggle('active', lang === 'pt');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+
+  const dict = T[lang];
+
+  // Plain text elements
+  document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.dataset.i18n;
-    if(lang === 'en' && translations.en[key] !== undefined){
-      el.innerHTML = translations.en[key];
-    } else {
-      el.innerHTML = originalContent.get(el);
-    }
+    if (dict[key] !== undefined) el.textContent = dict[key];
   });
-  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
-    const key = el.dataset.i18nPlaceholder;
-    if(lang === 'en' && translations.en[key] !== undefined){
-      el.setAttribute('placeholder', translations.en[key]);
-    } else {
-      el.setAttribute('placeholder', originalPlaceholders.get(el));
-    }
+
+  // HTML elements (contain tags like <strong>, <a>)
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const key = el.dataset.i18nHtml;
+    if (dict[key] !== undefined) el.innerHTML = dict[key];
+  });
+
+  // Step times use innerHTML (have <br>)
+  document.querySelectorAll('[data-i18n].step-time').forEach(el => {
+    const key = el.dataset.i18n;
+    if (dict[key] !== undefined) el.innerHTML = dict[key];
   });
 }
 
-document.querySelectorAll('.lang-btn').forEach(btn=>{
-  btn.addEventListener('click', ()=> setLanguage(btn.dataset.lang));
+/* ── FAQ ── */
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.parentElement, ans = item.querySelector('.faq-a'), open = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => { i.classList.remove('open'); i.querySelector('.faq-a').style.maxHeight='0'; });
+    if (!open) { item.classList.add('open'); ans.style.maxHeight = ans.scrollHeight+'px'; }
+  });
 });
 
-</script>
+/* ── COUNTERS ── */
+function animateCtr(el) {
+  const target=parseFloat(el.dataset.t), dec=parseInt(el.dataset.d||0), dur=1600, t0=performance.now();
+  (function tick(now){
+    const p=Math.min((now-t0)/dur,1), e=1-Math.pow(1-p,3), v=e*target;
+    el.textContent = dec>0 ? v.toFixed(dec) : Math.floor(v).toLocaleString('pt-PT');
+    if(p<1) requestAnimationFrame(tick);
+  })(t0);
+}
+function animateBars(){ document.querySelectorAll('.stat-fill').forEach(b=>setTimeout(()=>{b.style.width=b.dataset.w+'%'},150)); }
 
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.querySelectorAll('.ctr').forEach(animateCtr); animateBars(); io.unobserve(e.target); } });
+},{threshold:.25});
+const bar=document.querySelector('.stats-bar');
+if(bar) io.observe(bar);
+
+/* ── LAMP CONTACT ── */
+const lampObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('lamp-on'); lampObs.unobserve(e.target); } });
+},{threshold:.15});
+const ctSec = document.getElementById('contacto');
+if(ctSec) lampObs.observe(ctSec);
+
+/* ── NAV ACTIVE ── */
+const secs=document.querySelectorAll('section[id]'), lnks=document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll',()=>{
+  let cur=''; secs.forEach(s=>{if(window.scrollY>=s.offsetTop-80) cur=s.id;});
+  lnks.forEach(l=>{l.style.color=l.getAttribute('href')==='#'+cur?'var(--white)':'';});
+},{passive:true});
+</script>
 </body>
 </html>
